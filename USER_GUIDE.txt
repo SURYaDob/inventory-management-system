@@ -122,3 +122,32 @@ and invoice histories. Save this file to a USB drive or cloud drive weekly. Rest
 choose your saved backup file, and confirm. This restores all inventory items and transactions (Warning: overwrites current data).
 Reset Database: Click "Wipe Complete Database" inside the red-bordered box to completely reset the system to factory settings.
 ------------------------------------------------------------------------------
+🌙 9. Dark Mode Toggle
+
+The app includes a dark mode theme to reduce eye strain, especially during evening or low-light use.
+
+Toggle Dark Mode:
+- Look at the bottom-left corner of the sidebar (footer area next to the Sign Out button).
+- Click the 🌙 moon icon button to switch to Dark Mode.
+- The interface instantly switches to a dark color scheme (dark navy backgrounds, lighter text).
+- Click the ☀️ sun icon button to switch back to Light Mode.
+
+Automatic Persistence:
+- The app remembers your theme preference using your browser's local storage.
+- When you close and reopen the app, your last selected theme (dark or light) is automatically restored.
+- No need to switch themes every time you log in.
+
+Where the Dark Mode applies:
+- Login screen (card background, input fields)
+- Sidebar panel and navigation
+- Dashboard, metric cards, category tiles, & low stock table
+- Spreadsheet-style inventory grids
+- Billing counter, autocomplete dropdowns, & summary panel
+- Invoice history table, date filter inputs, & loading spinner
+- All modals (Product Search, Invoice View)
+- Customer directory & backup/restore screens
+- All buttons, inputs, date pickers, and file input fields
+
+Tip: Dark mode is purely visual — it does not affect printing. 
+Invoice printouts and PDF downloads always use the light/white format.
+------------------------------------------------------------------------------
