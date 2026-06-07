@@ -1252,6 +1252,14 @@ async function initializeBillingCounter() {
         addBlankBillingRow();
         recalculateBillTotals();
         
+        // Load recent invoices for the billing screen history panel
+        // Fetch fresh from database to ensure data appears even on first visit
+        try {
+            const allInv = await db.getAllInvoices();
+            AppState.allInvoices = allInv.reverse();
+        } catch (e) {}
+        loadRecentBillingHistory();
+        
     } catch (err) {
         console.error("Error loading billing setup:", err);
     }
@@ -2047,6 +2055,90 @@ document.addEventListener("keydown", (e) => {
         closeInvoiceViewModal();
     }
 });
+
+
+// ================= BILLING SCREEN RECENT TRANSACTIONS =================
+function loadRecentBillingHistory() {
+    const recentBody = document.getElementById("billing-recent-body-rows");
+    const recentTable = document.getElementById("billing-recent-table");
+    const recentEmpty = document.querySelector(".billing-recent-empty");
+    const recentCount = document.getElementById("billing-recent-count");
+    
+    if (!recentBody) return;
+    
+    // Get the latest 8 invoices from AppState
+    const invoices = AppState.allInvoices.length > 0 
+        ? AppState.allInvoices 
+        : [];
+    
+    const recent = invoices.slice(0, 8);
+    
+    if (recent.length === 0) {
+        if (recentTable) recentTable.style.display = "none";
+        if (recentEmpty) recentEmpty.style.display = "flex";
+        if (recentCount) recentCount.textContent = "0";
+        return;
+    }
+    
+    if (recentTable) recentTable.style.display = "";
+    if (recentEmpty) recentEmpty.style.display = "none";
+    if (recentCount) recentCount.textContent = recent.length;
+    
+    recentBody.innerHTML = "";
+    recent.forEach(inv => {
+        const tr = document.createElement("tr");
+        const dateStr = inv.date ? new Date(inv.date).toLocaleDateString("en-IN") : "-";
+        const isToday = inv.date === new Date().toISOString().split("T")[0];
+        
+        tr.innerHTML = `
+            <td><span class="recent-inv-id">${inv.invoiceId || "-"}</span></td>
+            <td class="col-mono" style="font-size: 12px; color: var(--text-muted);">${dateStr}${isToday ? ' <span class="badge-status ok" style="font-size: 9px; padding: 1px 5px;">Today</span>' : ''}</td>
+            <td><span class="recent-customer" title="${(inv.customerName || "Walk-in").replace(/"/g, '&quot;')}">${inv.customerName || "Walk-in"}</span></td>
+            <td style="text-align: right;"><span class="recent-amount">₹${(inv.total || 0).toFixed(2)}</span></td>
+            <td style="text-align: center;">
+                <div class="recent-actions">
+                    <button class="btn btn-icon btn-outline" title="View Invoice" data-view-id="${inv.id}" style="padding: 3px 6px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                    <button class="btn btn-icon btn-outline" title="Reprint Invoice" data-print-id="${inv.id}" style="padding: 3px 6px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    </button>
+                </div>
+            </td>
+        `;
+        
+        // View Invoice button
+        const viewBtn = tr.querySelector('[data-view-id="' + inv.id + '"]');
+        if (viewBtn) {
+            viewBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const invData = AppState.allInvoices.find(i => i.id === inv.id);
+                if (invData) openInvoiceViewModal(invData);
+            });
+        }
+        
+        // Reprint button
+        const printBtn = tr.querySelector('[data-print-id="' + inv.id + '"]');
+        if (printBtn) {
+            printBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const invData = AppState.allInvoices.find(i => i.id === inv.id);
+                if (invData) reprintSelectedInvoice(invData);
+            });
+        }
+        
+        recentBody.appendChild(tr);
+    });
+}
+
+// View All button in billing recent transactions
+const viewAllBtn = document.getElementById("btn-view-all-invoices");
+if (viewAllBtn) {
+    viewAllBtn.addEventListener("click", () => {
+        navigateToScreen("invoices");
+    });
+}
+
 
 // ================= KEYBOARD SHORTCUTS =================
 document.addEventListener("keydown", (e) => {

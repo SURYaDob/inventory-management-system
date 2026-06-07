@@ -420,8 +420,8 @@
                                 </table>
                             </div>
 
-                            <button id="btn-add-billing-row" class="btn btn-outline mt-15">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <button id="btn-add-billing-row" class="btn btn-sm btn-outline mt-15">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                                 Add Row
                             </button>
                         </div>
@@ -460,19 +460,89 @@
                                 </div>
                             </div>
 
-                            <div class="billing-actions">
-                                <button id="btn-print-bill" class="btn btn-primary btn-block">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                                    Print Invoice
+                            <div class="billing-actions" style="display: flex; flex-direction: row; gap: 8px;">
+                                <button id="btn-print-bill" class="btn btn-primary btn-sm" style="flex: 1;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                                    Print
                                 </button>
-                                <button id="btn-pdf-bill" class="btn btn-success btn-block">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                                    Save as PDF
+                                <button id="btn-pdf-bill" class="btn btn-success btn-sm" style="flex: 1;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                    PDF
                                 </button>
                             </div>
                         </div>
+                                            </div>
                     </div>
-                </section>
+
+                    <!-- Recent Transactions Panel -->
+                    <div class="billing-recent-card card">
+                        <div class="billing-recent-header" id="billing-recent-header">
+                            <div class="billing-recent-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                <span>Recent Transactions</span>
+                                <span id="billing-recent-count" class="recent-count-badge">0</span>
+                            </div>
+                            <div class="billing-recent-actions">
+                                <button id="btn-view-all-invoices" class="btn btn-sm btn-outline">View All</button>
+                            </div>
+                        </div>
+                        <div class="billing-recent-body" id="billing-recent-body">
+                            <div class="billing-recent-empty">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                <span>No recent transactions. Create your first bill above!</span>
+                            </div>
+                            <table class="billing-recent-table" id="billing-recent-table" style="display: none;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 110px;">Invoice ID</th>
+                                        <th style="width: 100px;">Date</th>
+                                        <th>Customer</th>
+                                        <th style="width: 90px; text-align: right;">Amount</th>
+                                        <th style="width: 100px; text-align: center;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="billing-recent-body-rows">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                                            </div>
+                    </div>
+
+                    <!-- Recent Transactions Panel -->
+                    <div class="billing-recent-card card">
+                        <div class="billing-recent-header" id="billing-recent-header">
+                            <div class="billing-recent-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                <span>Recent Transactions</span>
+                                <span id="billing-recent-count" class="recent-count-badge">0</span>
+                            </div>
+                            <div class="billing-recent-actions">
+                                <button id="btn-view-all-invoices" class="btn btn-sm btn-outline">View All</button>
+                            </div>
+                        </div>
+                        <div class="billing-recent-body" id="billing-recent-body">
+                            <div class="billing-recent-empty">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                <span>No recent transactions. Create your first bill above!</span>
+                            </div>
+                            <table class="billing-recent-table" id="billing-recent-table" style="display: none;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 110px;">Invoice ID</th>
+                                        <th style="width: 100px;">Date</th>
+                                        <th>Customer</th>
+                                        <th style="width: 90px; text-align: right;">Amount</th>
+                                        <th style="width: 100px; text-align: center;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="billing-recent-body-rows">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section></section>
 
                 <!-- 4. CUSTOMERS SCREEN -->
                 <section id="screen-customers" class="content-screen">

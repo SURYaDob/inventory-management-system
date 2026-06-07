@@ -1582,6 +1582,342 @@ input:checked + .slider:before {
 }
 
 
+
+/* ================= BILLING RECENT TRANSACTIONS ================= */
+.billing-recent-card {
+    margin-top: 5px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.billing-recent-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.billing-recent-header:hover {
+    background: rgba(79, 70, 229, 0.04);
+}
+
+.billing-recent-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.billing-recent-title svg {
+    color: var(--accent-indigo);
+}
+
+.recent-count-badge {
+    background: var(--accent-indigo);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    min-width: 22px;
+    text-align: center;
+}
+
+.billing-recent-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.billing-recent-body {
+    padding: 0;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.billing-recent-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 30px 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.billing-recent-empty svg {
+    opacity: 0.4;
+}
+
+.billing-recent-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.billing-recent-table th {
+    padding: 8px 14px;
+    background: rgba(15, 23, 42, 0.03);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.billing-recent-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.billing-recent-table tbody tr {
+    transition: background var(--transition-speed);
+    cursor: pointer;
+}
+
+.billing-recent-table tbody tr:hover {
+    background: rgba(79, 70, 229, 0.04);
+}
+
+.billing-recent-table .recent-actions {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.billing-recent-table .recent-actions .btn-icon {
+    padding: 4px 6px;
+    font-size: 11px;
+    border-radius: 6px;
+}
+
+.billing-recent-table .recent-inv-id {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--accent-indigo);
+}
+
+.billing-recent-table .recent-amount {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--accent-emerald);
+}
+
+.billing-recent-table .recent-customer {
+    font-size: 13px;
+    color: var(--text-primary);
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Dark mode overrides for recent transactions */
+.dark-mode .billing-recent-header {
+    background: #131c31;
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .billing-recent-header:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.dark-mode .billing-recent-table th {
+    background: rgba(15, 23, 42, 0.4);
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .billing-recent-table td {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .billing-recent-table tbody tr:hover {
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.dark-mode .billing-recent-empty {
+    color: var(--dark-text-muted);
+}
+
+/* ================= BILLING RECENT TRANSACTIONS ================= */
+.billing-recent-card {
+    margin-top: 5px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.billing-recent-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.billing-recent-header:hover {
+    background: rgba(79, 70, 229, 0.04);
+}
+
+.billing-recent-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.billing-recent-title svg {
+    color: var(--accent-indigo);
+}
+
+.recent-count-badge {
+    background: var(--accent-indigo);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    min-width: 22px;
+    text-align: center;
+}
+
+.billing-recent-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.billing-recent-body {
+    padding: 0;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.billing-recent-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 30px 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.billing-recent-empty svg {
+    opacity: 0.4;
+}
+
+.billing-recent-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.billing-recent-table th {
+    padding: 8px 14px;
+    background: rgba(15, 23, 42, 0.03);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.billing-recent-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.billing-recent-table tbody tr {
+    transition: background var(--transition-speed);
+    cursor: pointer;
+}
+
+.billing-recent-table tbody tr:hover {
+    background: rgba(79, 70, 229, 0.04);
+}
+
+.billing-recent-table .recent-actions {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.billing-recent-table .recent-actions .btn-icon {
+    padding: 4px 6px;
+    font-size: 11px;
+    border-radius: 6px;
+}
+
+.billing-recent-table .recent-inv-id {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--accent-indigo);
+}
+
+.billing-recent-table .recent-amount {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--accent-emerald);
+}
+
+.billing-recent-table .recent-customer {
+    font-size: 13px;
+    color: var(--text-primary);
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Dark mode overrides for recent transactions */
+.dark-mode .billing-recent-header {
+    background: #131c31;
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .billing-recent-header:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.dark-mode .billing-recent-table th {
+    background: rgba(15, 23, 42, 0.4);
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .billing-recent-table td {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .billing-recent-table tbody tr:hover {
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.dark-mode .billing-recent-empty {
+    color: var(--dark-text-muted);
+}
 /* ================= DARK MODE THEME ================= */
 .dark-mode {
     --bg-primary: var(--dark-bg-primary);
