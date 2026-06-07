@@ -462,6 +462,10 @@
                                     <span>Balance / Change</span>
                                     <span id="summary-balance" class="balance-amount">₹0.00</span>
                                 </div>
+                                <div id="payment-status" class="payment-status-indicator" style="display: none;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                    Payment Complete
+                                </div>
                             </div>
 
                             <div class="billing-actions" style="display: flex; flex-direction: column; gap: 6px;">
@@ -475,17 +479,25 @@
                                         PDF
                                     </button>
                                 </div>
-                                <button id="btn-complete-sale" class="btn btn-success btn-sm btn-block" style="font-weight: 600;"
+                                <button id="btn-complete-sale" class="btn btn-success btn-sm btn-block" style="font-weight: 600;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                                     Complete Sale
                                 </button>
                             </div>
                         </div>
-                                            </div>
+
                     </div>
 
-                    <!-- Recent Transactions Panel -->
-                    <div class="billing-recent-card card">
+                    
+
+                
+
+                    <!-- ================= RECENT TRANSACTIONS ================= -->
+
+                
+
+                    <!-- ================= RECENT TRANSACTIONS ================= -->
+<div class="billing-recent-section">
                         <div class="billing-recent-header" id="billing-recent-header">
                             <div class="billing-recent-title">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -515,15 +527,13 @@
                                     </tr>
                                 </thead>
                                 <tbody id="billing-recent-body-rows">
-                                    <!-- Populated by JS -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </section></section>
+</section>
 
-                <!-- 4. CUSTOMERS SCREEN -->
-                <section id="screen-customers" class="content-screen">
+<section id="screen-customers" class="content-screen">
                     <header class="content-header">
                         <div>
                             <h1>Customer Directory</h1>
@@ -583,7 +593,375 @@
                             </table>
                         </div>
                     </div>
+                
+                    <!-- ================= RECENT TRANSACTIONS ================= -->
+                    
+</section>
+
+                <!-- 5. INVOICES HISTORY SCREEN -->
+                <section id="screen-invoices" class="content-screen">
+                    <header class="content-header">
+                        <div>
+                            <h1>Invoice Transactions</h1>
+                            <p>History log of all bills generated on this system.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button id="btn-export-invoices" class="btn btn-outline">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M8 11l4 4 4-4M12 15V3"/></svg>
+                                Export CSV
+                            </button>
+                        </div>
+                    </header>
+
+                    <div class="card">
+                        <div class="invoice-filter-bar" style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 15px;">
+                            <div class="search-box" style="flex: 1; min-width: 250px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input type="text" id="invoice-history-search" placeholder="Search by customer name, phone, invoice ID...">
+                            </div>
+                            <div class="input-group" style="margin-bottom: 0; min-width: 160px;">
+                                <label for="invoice-date-from" style="font-size: 12px; margin-bottom: 4px;">From Date</label>
+                                <input type="date" id="invoice-date-from" style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px; outline: none; background: #fff;">
+                            </div>
+                            <div class="input-group" style="margin-bottom: 0; min-width: 160px;">
+                                <label for="invoice-date-to" style="font-size: 12px; margin-bottom: 4px;">To Date</label>
+                                <input type="date" id="invoice-date-to" style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px; outline: none; background: #fff;">
+                            </div>
+                            <button id="btn-clear-date-filter" class="btn btn-sm btn-outline" style="margin-bottom: 1px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                Clear
+                            </button>
+                        </div>
+                        
+                        <div id="invoice-loading-spinner" class="loading-spinner-wrapper" style="display: none;">
+                            <div class="loading-spinner"></div>
+                            <span class="loading-spinner-text">Loading invoice records...</span>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Invoice ID</th>
+                                        <th>Date</th>
+                                        <th>Customer Name</th>
+                                        <th>Phone</th>
+                                        <th>Subtotal</th>
+                                        <th>GST Amount</th>
+                                        <th>Grand Total</th>
+                                        <th style="text-align: center;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="invoices-table-body">
+                                    <!-- Dynamic historical billing records -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </section>
+
+                <!-- 6. BACKUP & SYSTEM SETTINGS SCREEN -->
+                <section id="screen-backups" class="content-screen">
+                    <header class="content-header">
+                        <div>
+                            <h1>Database Maintenance</h1>
+                            <p>Export backups, restore database from JSON file, or clear data resets.</p>
+                        </div>
+                    </header>
+
+                    <div class="grid-col-2">
+                        <div class="card backup-block">
+                            <h2>Export Database Backup</h2>
+                            <p>Download your complete database inventory, configuration settings, and transaction records to a standalone local backup file.</p>
+                            <button id="btn-db-export" class="btn btn-primary">Export JSON Database Backup</button>
+                        </div>
+
+                        <div class="card backup-block">
+                            <h2>Restore Database Backup</h2>
+                            <p>Re-load items and invoice histories from an existing local JSON database backup file. <strong>Warning: This overwrites current records.</strong></p>
+                            <div class="import-group">
+                                <input type="file" id="db-file-input" accept=".json" class="file-input-field">
+                                <button id="btn-db-import" class="btn btn-outline">Restore JSON Backup</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-20 warning-card-border">
+                        <h2>Factory System Reset</h2>
+                        <p class="text-muted">Delete all products, wipe transaction tables, reset administrator configuration, and reinitialize a clean environment.</p>
+                        <button id="btn-db-clear" class="btn btn-danger">Wipe Complete Database</button>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+
+    </div>
+
+    
+    <!-- ================= QUICK SALE MODAL ================= -->
+    <div id="quick-sale-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 700px; max-height: 85vh;">
+            <div class="modal-header">
+                <h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Quick Sale Checkout
+                </h2>
+                <button class="modal-close-btn" id="qs-close-btn" title="Close (Esc)">&times;</button>
+            </div>
+            
+            <!-- Product Search -->
+            <div class="modal-search">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="modal-search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="qs-search-input" placeholder="Search products by name, SKU, or category...">
+            </div>
+            
+            <!-- Search Results -->
+            <div id="qs-search-results" class="qs-search-results" style="max-height: 180px; overflow-y: auto; border-bottom: 1px solid var(--border-color);">
+                <div class="qs-empty-hint" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; margin: 0 auto 8px; opacity: 0.4;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    Type to search for products
+                </div>
+            </div>
+            
+            <!-- Cart Items -->
+            <div class="qs-cart-section" style="flex: 1; overflow-y: auto; padding: 12px 24px; min-height: 100px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-weight: 600; font-size: 14px;">Cart Items</span>
+                    <span id="qs-item-count" class="text-muted" style="font-size: 12px;">0 items</span>
+                </div>
+                <div id="qs-cart-body">
+                    <div class="qs-empty-cart" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; margin: 0 auto 8px; opacity: 0.4;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        No items added yet. Search and click a product above.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Totals & Actions -->
+            <div class="qs-footer" style="border-top: 1px solid var(--border-color); padding: 14px 24px; background: var(--bg-secondary);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="input-group" style="margin: 0; width: 140px;">
+                            <label style="font-size: 11px; margin-bottom: 2px;">Cash Received</label>
+                            <input type="number" id="qs-cash-received" placeholder="0.00" style="padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; width: 100%; background: #fff;">
+                        </div>
+                        <div style="font-size: 13px;">
+                            <span class="text-muted">Change: </span>
+                            <span id="qs-change" class="col-mono" style="font-weight: 600;">₹0.00</span>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="text-muted" style="font-size: 12px;">Total</div>
+                        <div id="qs-total" class="col-mono" style="font-size: 22px; font-weight: 700; color: var(--accent-emerald);">₹0.00</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button id="qs-complete-sale" class="btn btn-success" style="flex: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        Complete Sale
+                    </button>
+                    <button id="qs-complete-print" class="btn btn-primary" style="flex: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        Complete & Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PRINT INVOICE TEMPLATE (Hidden from Main View, Active on Printer) ================= -->
+    <div id="print-invoice-wrapper" class="print-only">
+        <div class="print-invoice-container">
+            <div class="print-header">
+                <div class="print-store-name">IMS HARDWARE SHOP</div>
+                <div class="print-store-details">Electrical • Plumbing • Paint • General Hardware</div>
+                <div class="print-store-sub">Contact: +91 98765 43210 | GSTIN: 27AAAAA1111A1Z1</div>
+            </div>
+
+            <div class="print-invoice-meta">
+                <div>
+                    <div><strong>Invoice ID:</strong> <span id="print-inv-id">INV-10001</span></div>
+                    <div><strong>Date:</strong> <span id="print-inv-date">06/06/2026</span></div>
+                    <div><strong>Time:</strong> <span id="print-inv-time">10:00 AM</span></div>
+                </div>
+                <div style="text-align: right;">
+                    <div><strong>Customer Name:</strong> <span id="print-cust-name">Walk-in</span></div>
+                    <div><strong>Customer Phone:</strong> <span id="print-cust-phone">-</span></div>
+                </div>
+            </div>
+
+            <table class="print-invoice-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">#</th>
+                        <th>Product / Item Description</th>
+                        <th style="width: 80px;">Rate (₹)</th>
+                        <th style="width: 50px;">Qty</th>
+                        <th style="width: 80px;" class="print-gst-col">GST %</th>
+                        <th style="width: 80px;" class="print-gst-col">GST Amt</th>
+                        <th style="text-align: right; width: 100px;">Total (₹)</th>
+                    </tr>
+                </thead>
+                <tbody id="print-invoice-body">
+                    <!-- Dynamic billing item rows for printing -->
+                </tbody>
+            </table>
+
+            <div class="print-summary">
+                <div class="print-summary-col">
+                    <div class="print-terms">
+                        <strong>Terms & Conditions:</strong><br>
+                        1. Goods once sold will not be taken back.<br>
+                        2. Subject to local jurisdiction.<br>
+                        Thank you for your business!
+                    </div>
+                </div>
+                <div class="print-summary-col print-totals">
+                    <div class="print-total-row">
+                        <span>Subtotal:</span>
+                        <span id="print-subtotal">₹0.00</span>
+                    </div>
+                    <div id="print-gst-rows">
+                        <div class="print-total-row">
+                            <span>CGST:</span>
+                            <span id="print-cgst">₹0.00</span>
+                        </div>
+                        <div class="print-total-row">
+                            <span>SGST:</span>
+                            <span id="print-sgst">₹0.00</span>
+                        </div>
+                    </div>
+                    <div class="print-total-row print-grand-total">
+                        <span>Grand Total:</span>
+                        <span id="print-grand-total">₹0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="print-footer">
+                <div>Prepared By: Admin</div>
+                <div style="border-top: 1px dashed #777; width: 150px; margin-top: 40px; text-align: center;">Authorized Signatory</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= QUICK PRODUCT SEARCH MODAL ================= -->
+    <div id="product-search-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    Quick Product Search
+                </h2>
+                <button class="modal-close-btn" id="modal-close-btn" title="Close (Esc)">&times;</button>
+            </div>
+            <div class="modal-search">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="modal-search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="modal-search-input" placeholder="Search by name, SKU, or category..." autofocus>
+            </div>
+            <div class="modal-table-container">
+                <table class="data-table modal-product-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th style="width: 120px;">SKU</th>
+                            <th>Product Name</th>
+                            <th style="width: 90px;">Category</th>
+                            <th style="width: 100px;">Price (₹)</th>
+                            <th style="width: 80px;">Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modal-products-body">
+                        <!-- Dynamic rows populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <span class="text-muted"><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate &bull; <kbd>Enter</kbd> Select &bull; <kbd>Esc</kbd> Close</span>
+                <span id="modal-result-count" class="text-muted">0 products</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= INVOICE VIEW MODAL ================= -->
+    <div id="invoice-view-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 820px;" tabindex="0">
+            <div class="modal-header">
+                <h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    Invoice Details
+                </h2>
+                <button class="modal-close-btn" id="view-inv-close-btn" title="Close (Esc)">&times;</button>
+            </div>
+            
+            <!-- Invoice Metadata -->
+            <div class="invoice-view-meta" style="display: flex; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border-color); font-size: 14px;">
+                <div>
+                    <div><strong>Invoice ID:</strong> <span id="view-inv-id" class="col-mono">-</span></div>
+                    <div><strong>Date:</strong> <span id="view-inv-date">-</span></div>
+                    <div><strong>Time:</strong> <span id="view-inv-time">-</span></div>
+                </div>
+                <div style="text-align: right;">
+                    <div><strong>Customer:</strong> <span id="view-cust-name">-</span></div>
+                    <div><strong>Phone:</strong> <span id="view-cust-phone" class="col-mono">-</span></div>
+                </div>
+            </div>
+            
+            <!-- Line Items Table -->
+            <div class="modal-table-container" style="flex: 1; overflow-y: auto; padding: 0;">
+                <table class="data-table" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <thead style="position: sticky; top: 0; z-index: 1;">
+                        <tr>
+                            <th style="width: 40px; padding: 10px 12px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);">#</th>
+                            <th style="padding: 10px 12px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);">Product</th>
+                            <th style="width: 90px; padding: 10px 12px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);">Rate (₹)</th>
+                            <th style="width: 60px; padding: 10px 12px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);">Qty</th>
+                            <th style="width: 70px; padding: 10px 12px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);" class="view-gst-col">GST %</th>
+                            <th style="width: 90px; padding: 10px 12px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);" class="view-gst-col">GST Amt</th>
+                            <th style="width: 100px; padding: 10px 12px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); text-align: right;">Total (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="view-invoice-body">
+                        <!-- Dynamic rows populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Invoice Totals & Actions -->
+            <div style="padding: 16px 24px; border-top: 1px solid var(--border-color); background: var(--bg-secondary); display: flex; justify-content: space-between; align-items: flex-end;">
+                <div style="display: flex; gap: 10px;">
+                    <button id="view-print-btn" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        Print
+                    </button>
+                    <button id="view-pdf-btn" class="btn btn-success">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        Download PDF
+                    </button>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 13px; color: var(--text-secondary);">
+                        Subtotal: <span id="view-subtotal" class="col-mono">₹0.00</span>
+                    </div>
+                    <div id="view-gst-rows" style="font-size: 13px; color: var(--text-secondary);">
+                        <div>CGST (9%): <span id="view-cgst" class="col-mono">₹0.00</span></div>
+                        <div>SGST (9%): <span id="view-sgst" class="col-mono">₹0.00</span></div>
+                    </div>
+                    <div style="font-size: 18px; font-weight: 700; margin-top: 4px;">
+                        Grand Total: <span id="view-grand-total" class="col-mono" style="color: var(--accent-emerald);">₹0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core App Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
+                </section>
+
 
                 <!-- 5. INVOICES HISTORY SCREEN -->
                 <section id="screen-invoices" class="content-screen">

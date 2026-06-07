@@ -1769,6 +1769,18 @@ function recalculateBillTotals() {
         DOM.summaryBalance.textContent = `₹0.00`;
         DOM.summaryBalance.style.color = "";
     }
+    
+    // Update payment status indicator
+    const paymentStatus = document.getElementById("payment-status");
+    if (paymentStatus) {
+        const grandTotalVal = parseFloat(DOM.summaryGrandTotal.textContent.replace("₹", "")) || 0;
+        const cashVal = parseFloat(DOM.billCashReceived.value) || 0;
+        if (grandTotalVal > 0 && cashVal >= grandTotalVal) {
+            paymentStatus.style.display = "flex";
+        } else {
+            paymentStatus.style.display = "none";
+        }
+    }
 }
 
 DOM.billCashReceived.addEventListener("input", recalculateBillTotals);
