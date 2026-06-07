@@ -1940,6 +1940,53 @@ input:checked + .slider:before {
     width: 280px;
 }
 
+/* ================= BILL HISTORY SORTABLE HEADERS ================= */
+.bill-history-grid .bh-sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s, color 0.15s;
+    position: relative;
+    white-space: nowrap;
+}
+
+.bill-history-grid .bh-sortable:hover {
+    background: rgba(79, 70, 229, 0.08);
+    color: var(--text-primary);
+}
+
+.bill-history-grid .bh-sortable .bh-sort-icon {
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 10px;
+    line-height: 1;
+    opacity: 0.5;
+    vertical-align: middle;
+    min-width: 12px;
+    text-align: center;
+}
+
+.bill-history-grid .bh-sort-asc .bh-sort-icon,
+.bill-history-grid .bh-sort-desc .bh-sort-icon {
+    opacity: 1;
+    color: var(--accent-indigo);
+}
+
+.bill-history-grid .bh-sort-asc,
+.bill-history-grid .bh-sort-desc {
+    color: var(--accent-indigo) !important;
+    background: rgba(79, 70, 229, 0.06);
+}
+
+.dark-mode .bill-history-grid .bh-sortable:hover {
+    background: rgba(99, 102, 241, 0.12);
+}
+
+.dark-mode .bill-history-grid .bh-sort-asc,
+.dark-mode .bill-history-grid .bh-sort-desc {
+    background: rgba(99, 102, 241, 0.1);
+    color: #818cf8 !important;
+}
+
 .billing-recent-body.collapsed {
     display: none;
 }

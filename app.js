@@ -2095,6 +2095,47 @@ function loadRecentBillingHistory() {
         return invId.includes(query) || custName.includes(query) || custPhone.includes(query);
     }) : invoices;
     
+    // Sort by current sort state
+    var sortCol = billingSortState.column;
+    var sortAsc = billingSortState.ascending;
+    filtered.sort(function(a, b) {
+        var valA, valB;
+        switch (sortCol) {
+            case "date":
+                valA = a.date || "";
+                valB = b.date || "";
+                break;
+            case "customerName":
+                valA = (a.customerName || "").toLowerCase();
+                valB = (b.customerName || "").toLowerCase();
+                break;
+            case "invoiceId":
+                valA = a.invoiceId || "";
+                valB = b.invoiceId || "";
+                break;
+            case "subtotal":
+                valA = a.subtotal || 0;
+                valB = b.subtotal || 0;
+                break;
+            case "gstTax":
+                valA = a.gstTax || 0;
+                valB = b.gstTax || 0;
+                break;
+            case "total":
+                valA = a.total || 0;
+                valB = b.total || 0;
+                break;
+            default:
+                valA = a.date || "";
+                valB = b.date || "";
+        }
+        if (typeof valA === "number" && typeof valB === "number") {
+            return sortAsc ? valA - valB : valB - valA;
+        }
+        var cmp = String(valA).localeCompare(String(valB));
+        return sortAsc ? cmp : -cmp;
+    });
+    
     if (filtered.length === 0) {
         if (recentTable) recentTable.style.display = "none";
         if (recentEmpty) recentEmpty.style.display = "flex";
@@ -2220,11 +2261,60 @@ function loadRecentBillingHistory() {
     });
 }
 
+// Bill history grid sorting state
+var billingSortState = {
+    column: "date",
+    ascending: false  // Default: descending (most recent first)
+};
 
 // Bill history search input
 const billHistorySearch = document.getElementById("bill-history-search");
 if (billHistorySearch) {
     billHistorySearch.addEventListener("input", loadRecentBillingHistory);
+}
+
+// Sort click handlers for bill history grid headers
+document.querySelectorAll(".bill-history-grid .bh-sortable").forEach(function(th) {
+    th.addEventListener("click", function() {
+        var col = th.getAttribute("data-sort");
+        if (!col) return;
+        
+        // Toggle direction if same column, otherwise default to ascending
+        if (billingSortState.column === col) {
+            billingSortState.ascending = !billingSortState.ascending;
+        } else {
+            billingSortState.column = col;
+            billingSortState.ascending = true;
+        }
+        
+        // Update sort indicator icons on header row
+        document.querySelectorAll(".bill-history-grid .bh-sortable").forEach(function(h) {
+            h.classList.remove("bh-sort-asc", "bh-sort-desc");
+            var icon = h.querySelector(".bh-sort-icon");
+            if (icon) icon.textContent = "";
+        });
+        th.classList.add(billingSortState.ascending ? "bh-sort-asc" : "bh-sort-desc");
+        var icon = th.querySelector(".bh-sort-icon");
+        var arrow = billingSortState.ascending ? "\u25B2" : "\u25BC";
+        if (icon) icon.textContent = arrow;
+        
+        loadRecentBillingHistory();
+    });
+});
+
+// Apply initial default sort (date desc) on first load
+function initBillHistorySort() {
+    var defaultTh = document.querySelector('.bill-history-grid th[data-sort="date"]');
+    if (defaultTh) {
+        defaultTh.classList.add("bh-sort-desc");
+        var icon = defaultTh.querySelector(".bh-sort-icon");
+        if (icon) icon.textContent = "\u25BC";
+    }
+}
+
+// Initialize sort on DOM ready
+if (document.querySelector(".bill-history-grid")) {
+    initBillHistorySort();
 }
 
 // View All button in billing recent transactions
