@@ -894,6 +894,41 @@ DOM.logoutBtn.addEventListener("click", () => {
     DOM.loginScreen.classList.add("active");
 });
 
+// ================= THEME TOGGLE (DARK MODE) =================
+const themeToggle = document.getElementById("theme-toggle");
+const themeIcon = document.getElementById("theme-icon"); // moon
+const themeIconSun = document.getElementById("theme-icon-sun"); // sun
+
+function applyTheme(isDark) {
+    if (isDark) {
+        document.documentElement.classList.add("dark-mode");
+        themeIcon.style.display = "";
+        themeIconSun.style.display = "none";
+        localStorage.setItem("ims_theme", "dark");
+    } else {
+        document.documentElement.classList.remove("dark-mode");
+        themeIcon.style.display = "none";
+        themeIconSun.style.display = "";
+        localStorage.setItem("ims_theme", "light");
+    }
+}
+
+// Load saved theme on startup
+const savedTheme = localStorage.getItem("ims_theme");
+if (savedTheme === "dark") {
+    applyTheme(true);
+} else {
+    // Default to light, show sun icon
+    themeIcon.style.display = "none";
+    themeIconSun.style.display = "";
+}
+
+themeToggle.addEventListener("click", () => {
+    const isDark = !document.documentElement.classList.contains("dark-mode");
+    applyTheme(isDark);
+});
+
+
 // Auto login check
 function checkAuth() {
     if (sessionStorage.getItem("ims_logged_in") === "true") {

@@ -32,6 +32,20 @@
     --header-height: 70px;
     --transition-speed: 0.2s;
     --border-radius: 12px;
+
+    /* ================= DARK MODE OVERRIDES ================= */
+    --dark-bg-primary: #0b1121;
+    --dark-bg-secondary: #131c31;
+    --dark-bg-card: #1a2539;
+    --dark-border-color: #253046;
+    --dark-border-hover: #334155;
+    --dark-text-primary: #e2e8f0;
+    --dark-text-secondary: #94a3b8;
+    --dark-text-muted: #64748b;
+    --dark-accent-indigo-glow: rgba(99, 102, 241, 0.15);
+    --dark-accent-emerald-glow: rgba(16, 185, 129, 0.12);
+    --dark-accent-amber-glow: rgba(245, 158, 11, 0.12);
+    --dark-accent-rose-glow: rgba(239, 68, 68, 0.12);
 }
 
 /* ================= BASIC RESET & STYLES ================= */
@@ -1565,4 +1579,312 @@ input:checked + .slider:before {
         margin-top: 50px;
         font-size: 10px;
     }
+}
+
+
+/* ================= DARK MODE THEME ================= */
+.dark-mode {
+    --bg-primary: var(--dark-bg-primary);
+    --bg-secondary: var(--dark-bg-secondary);
+    --bg-card: var(--dark-bg-card);
+    --border-color: var(--dark-border-color);
+    --border-hover: var(--dark-border-hover);
+    --text-primary: var(--dark-text-primary);
+    --text-secondary: var(--dark-text-secondary);
+    --text-muted: var(--dark-text-muted);
+    --accent-indigo-glow: var(--dark-accent-indigo-glow);
+    --accent-emerald-glow: var(--dark-accent-emerald-glow);
+    --accent-amber-glow: var(--dark-accent-amber-glow);
+    --accent-rose-glow: var(--dark-accent-rose-glow);
+}
+
+.dark-mode .login-card {
+    background: var(--dark-bg-card);
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .input-group input,
+.dark-mode .input-group select {
+    background: #1e293b;
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+.dark-mode .input-group input:focus,
+.dark-mode .input-group select:focus {
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 0 3px var(--dark-accent-indigo-glow);
+}
+
+.dark-mode .search-box input {
+    background: #1e293b;
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+.dark-mode .search-box input:focus {
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 0 3px var(--dark-accent-indigo-glow);
+    background: #1e293b;
+}
+
+.dark-mode #login-screen {
+    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.12), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.08), transparent 40%),
+                var(--dark-bg-primary);
+}
+
+.dark-mode .sidebar {
+    background-color: var(--dark-bg-secondary);
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .sidebar-header {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .sidebar-footer {
+    border-color: var(--dark-border-color);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .user-avatar {
+    background-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-text-muted);
+}
+
+.dark-mode .nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark-mode .nav-item.active {
+    background-color: var(--accent-indigo);
+    color: #ffffff;
+}
+
+.dark-mode .content-header {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .card,
+.dark-mode .metric-card,
+.dark-mode .category-card,
+.dark-mode .dashboard-panel {
+    background: var(--dark-bg-card);
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .metric-card:hover,
+.dark-mode .category-card:hover {
+    border-color: var(--dark-border-hover);
+}
+
+.dark-mode .data-table th {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .data-table td {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .data-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.dark-mode .spreadsheet-grid th {
+    background: #131c31;
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .spreadsheet-grid td {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .spreadsheet-grid tbody tr:nth-child(even) {
+    background: rgba(15, 23, 42, 0.3);
+}
+
+.dark-mode .spreadsheet-grid tbody tr:hover {
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.dark-mode .grid-input {
+    color: var(--dark-text-primary);
+}
+
+.dark-mode .grid-input:focus {
+    background: #1e293b;
+    border-color: var(--accent-indigo);
+    box-shadow: inset 0 0 0 1px var(--accent-indigo);
+}
+
+.dark-mode .btn-outline {
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-secondary);
+}
+
+.dark-mode .btn-outline:hover {
+    border-color: var(--dark-border-hover);
+    color: var(--dark-text-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark-mode .btn-logout {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .modal-overlay {
+    background: rgba(11, 17, 33, 0.8);
+}
+
+.dark-mode .modal-content {
+    background: var(--dark-bg-card);
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .modal-header {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .modal-search {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .modal-search input {
+    background: #1e293b;
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+.dark-mode .modal-search input:focus {
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 0 3px var(--dark-accent-indigo-glow);
+    background: #1e293b;
+}
+
+.dark-mode .modal-product-table th {
+    background: #131c31;
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .modal-product-table td {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .modal-footer {
+    border-color: var(--dark-border-color);
+    background: #131c31;
+}
+
+.dark-mode .modal-close-btn {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .billing-cat-btn {
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-secondary);
+}
+
+.dark-mode .billing-category-filter {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .customer-info-section {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .invoice-summary-details .summary-row.divider {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .summary-group {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .billing-sidebar h2 {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .autocomplete-dropdown {
+    background-color: #1e293b;
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .autocomplete-item:hover {
+    background-color: var(--accent-indigo);
+    color: #ffffff;
+}
+
+.dark-mode .autocomplete-item .cat-badge {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.dark-mode .category-card:hover {
+    border-color: var(--accent-indigo);
+    box-shadow: 0 8px 16px -4px rgba(99, 102, 241, 0.2);
+}
+
+.dark-mode .badge {
+    background-color: var(--dark-border-color);
+    color: var(--dark-text-secondary);
+}
+
+.dark-mode .user-name {
+    color: var(--dark-text-primary);
+}
+
+.dark-mode .invoice-view-meta {
+    border-color: var(--dark-border-color) !important;
+}
+
+.dark-mode .modal-table-container table thead th {
+    background: #131c31 !important;
+    border-color: var(--dark-border-color) !important;
+}
+
+.dark-mode #view-invoice-body td,
+.dark-mode .modal-table-container table tbody td {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode [style*="border-top: 1px solid var(--border-color)"] {
+    border-color: var(--dark-border-color) !important;
+}
+
+.dark-mode .invoice-filter-bar input[type="date"] {
+    background: #1e293b;
+    border-color: var(--dark-border-color) !important;
+    color: var(--dark-text-primary);
+}
+
+.dark-mode #bill-datetime {
+    background: #1e293b;
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+.dark-mode #bill-datetime:focus {
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 0 3px var(--dark-accent-indigo-glow);
+}
+
+.dark-mode .file-input-field {
+    background: #1e293b;
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+.dark-mode .search-box input[type="date"] {
+    color-scheme: dark;
+}
+
+.dark-mode input[type="date"] {
+    color-scheme: dark;
+}
+
+.dark-mode input[type="datetime-local"] {
+    color-scheme: dark;
 }
