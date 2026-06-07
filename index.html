@@ -372,7 +372,6 @@
                     </header>
 
                     <div class="billing-layout">
-                        <!-- Invoice Entry Sheet -->
                         <div class="billing-main card">
                             <!-- Customer Details -->
                             <div class="customer-info-section">
@@ -430,8 +429,10 @@
                             </button>
                         </div>
 
-                        <!-- Invoice Summary Panel -->
-                        <div class="billing-sidebar card">
+                    </div>
+
+                    <!-- Billing Receipt Summary Bar -->
+                    <div class="billing-summary-bar">
                             <h2>Billing Receipt Summary</h2>
                             <div class="invoice-summary-details">
                                 <div class="summary-row">
@@ -458,7 +459,7 @@
                                     <label for="bill-cash-received">Cash Received (₹)</label>
                                     <input type="number" id="bill-cash-received" placeholder="0.00">
                                 </div>
-                                <div class="summary-row change-row mt-10">
+                                <div class="summary-row change-row">
                                     <span>Balance / Change</span>
                                     <span id="summary-balance" class="balance-amount">₹0.00</span>
                                 </div>
@@ -479,20 +480,14 @@
                                         PDF
                                     </button>
                                 </div>
-                                <button id="btn-complete-sale" class="btn btn-success btn-sm btn-block" style="font-weight: 600;">
+                                <button id="btn-complete-sale" class="btn btn-success btn-sm" style="font-weight: 600;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                                     Complete Sale
                                 </button>
                             </div>
                         </div>
 
-                    </div>
-
-                    
-
-                
-
-                                        <!-- ================= BILL HISTORY (ALL TRANSACTIONS) ================= -->
+                    <!-- ================= BILL HISTORY (ALL TRANSACTIONS) ================= -->
                     <div class="billing-recent-section">
                         <div class="billing-recent-header" id="billing-recent-header">
                             <div class="billing-recent-title">
