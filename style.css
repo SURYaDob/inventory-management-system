@@ -1073,21 +1073,22 @@ input:checked + .slider:before {
 .billing-sidebar {
     position: sticky;
     top: 30px;
+    padding: 24px 22px;
 }
 
 .billing-sidebar h2 {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
+    padding-bottom: 12px;
 }
 
 .invoice-summary-details {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 25px;
+    gap: 14px;
+    margin-bottom: 28px;
 }
 
 .summary-row {
@@ -1130,11 +1131,22 @@ input:checked + .slider:before {
     font-family: var(--font-mono);
 }
 
+
+/* ================= BILLING BUTTONS POLISH ================= */
+.billing-btn-row {
+    display: flex;
+    gap: 8px;
+}
+
+.billing-action-btn {
+    flex: 1;
+}
+
 .billing-actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-top: 5px;
+    gap: 10px;
+    margin-top: 8px;
 }
 
 /* ================= TABLES ================= */
@@ -1161,7 +1173,7 @@ input:checked + .slider:before {
 }
 
 .data-table tbody tr:hover {
-    background-color: rgba(248, 250, 252, 0.01);
+    background-color: rgba(79, 70, 229, 0.04);
 }
 
 .badge-status {
@@ -1597,7 +1609,7 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 20px;
+    padding: 14px 22px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
     user-select: none;
@@ -1639,7 +1651,7 @@ input:checked + .slider:before {
 
 .billing-recent-body {
     padding: 0;
-    max-height: 220px;
+    max-height: 460px;
     overflow-y: auto;
 }
 
@@ -1757,8 +1769,6 @@ input:checked + .slider:before {
 /* ================= BILL HISTORY GRID (Full Editable) ================= */
 .bill-history-table-wrapper {
     overflow-x: auto;
-    max-height: 380px;
-    overflow-y: auto;
 }
 
 .bill-history-grid {
@@ -1768,22 +1778,22 @@ input:checked + .slider:before {
 }
 
 .bill-history-grid th {
-    padding: 8px 12px;
+    padding: 10px 14px;
     background: rgba(15, 23, 42, 0.03);
     color: var(--text-secondary);
     font-weight: 600;
-    font-size: 11px;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.5px;
     border-bottom: 1px solid var(--border-color);
     white-space: nowrap;
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .bill-history-grid td {
-    padding: 6px 12px;
+    padding: 10px 14px;
     border-bottom: 1px solid var(--border-color);
     vertical-align: middle;
 }
@@ -1816,23 +1826,29 @@ input:checked + .slider:before {
 .bill-history-grid .bh-actions {
     display: flex;
     justify-content: center;
-    gap: 4px;
+    gap: 6px;
 }
 
 .bill-history-grid .bh-actions button {
-    padding: 4px 8px;
+    padding: 5px 10px;
     font-size: 11px;
+    font-weight: 600;
     border-radius: 6px;
+    letter-spacing: 0.3px;
 }
 
 /* Editable cell styling */
 .bill-history-grid .bh-cell-editable {
     cursor: text;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 6px 10px;
+    border-radius: 6px;
     border: 1px solid transparent;
     transition: all 0.15s;
-    min-height: 24px;
+    min-height: 26px;
+    font-size: 13px;
+    display: block;
+    min-width: 60px;
+    width: 100%;
 }
 
 .bill-history-grid .bh-cell-editable:hover {
@@ -1868,6 +1884,25 @@ input:checked + .slider:before {
     align-items: center;
 }
 
+#bill-history-search {
+    padding: 7px 12px 7px 32px;
+    font-size: 13px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+    width: 240px;
+    transition: all var(--transition-speed);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+}
+
+#bill-history-search:focus {
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 0 3px var(--accent-indigo-glow);
+    width: 280px;
+}
+
 /* Dark mode overrides */
 .dark-mode .bill-history-grid th {
     background: rgba(15, 23, 42, 0.4);
@@ -1901,7 +1936,8 @@ input:checked + .slider:before {
 
 .dark-mode #bill-history-search:focus {
     border-color: var(--accent-indigo) !important;
-    box-shadow: 0 0 0 2px var(--dark-accent-indigo-glow);
+    box-shadow: 0 0 0 3px var(--dark-accent-indigo-glow);
+    width: 280px;
 }
 
 .billing-recent-body.collapsed {
