@@ -2143,15 +2143,31 @@ if (viewAllBtn) {
 const toggleRecentBtn = document.getElementById("btn-toggle-recent");
 const recentChevron = document.getElementById("recent-chevron");
 const recentBody = document.getElementById("billing-recent-body");
+const recentHeader = document.getElementById("billing-recent-header");
+
+function toggleRecentPanel() {
+    const isCollapsed = recentBody.classList.toggle("collapsed");
+    if (recentChevron) {
+        recentChevron.style.transform = isCollapsed ? "rotate(180deg)" : "";
+        recentChevron.style.transition = "transform 0.2s";
+    }
+}
 
 if (toggleRecentBtn && recentBody) {
-    toggleRecentBtn.addEventListener("click", () => {
-        const isCollapsed = recentBody.classList.toggle("collapsed");
-        if (recentChevron) {
-            recentChevron.style.transform = isCollapsed ? "rotate(180deg)" : "";
-            recentChevron.style.transition = "transform 0.2s";
+    toggleRecentBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleRecentPanel();
+    });
+}
+
+// Also toggle when clicking the header itself (not the buttons inside)
+if (recentHeader && recentBody) {
+    recentHeader.addEventListener("click", (e) => {
+        if (!e.target.closest("button")) {
+            toggleRecentPanel();
         }
     });
+    recentHeader.style.cursor = "pointer";
 }
 
 }
