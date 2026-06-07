@@ -1073,39 +1073,39 @@ input:checked + .slider:before {
 .billing-sidebar {
     position: sticky;
     top: 30px;
-    padding: 24px 22px;
+    padding: 14px 16px;
 }
 
 .billing-sidebar h2 {
-    font-size: 17px;
+    font-size: 14px;
     font-weight: 700;
-    margin-bottom: 22px;
+    margin-bottom: 10px;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 12px;
+    padding-bottom: 8px;
 }
 
 .invoice-summary-details {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    margin-bottom: 28px;
+    gap: 6px;
+    margin-bottom: 12px;
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-secondary);
 }
 
 .summary-row.divider {
     border-bottom: 1px solid var(--border-color);
-    margin: 8px 0;
+    margin: 3px 0;
 }
 
 .summary-row.grand-total {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--text-primary);
 }
@@ -1118,8 +1118,8 @@ input:checked + .slider:before {
 .summary-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding-left: 10px;
+    gap: 3px;
+    padding-left: 8px;
     border-left: 2px solid var(--border-color);
 }
 
@@ -1145,8 +1145,8 @@ input:checked + .slider:before {
 .billing-actions {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 8px;
+    gap: 6px;
+    margin-top: 4px;
 }
 
 /* ================= TABLES ================= */
