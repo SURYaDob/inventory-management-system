@@ -645,6 +645,7 @@ const DOM = {
     summaryBalance: document.getElementById("summary-balance"),
     btnPrintBill: document.getElementById("btn-print-bill"),
     btnPdfBill: document.getElementById("btn-pdf-bill"),
+    btnCompleteSale: document.getElementById("btn-complete-sale"),
     
     // Customers
     custName: document.getElementById("cust-name"),
@@ -2137,8 +2138,66 @@ if (viewAllBtn) {
     viewAllBtn.addEventListener("click", () => {
         navigateToScreen("invoices");
     });
+
+// Collapse toggle for recent transactions panel
+const toggleRecentBtn = document.getElementById("btn-toggle-recent");
+const recentChevron = document.getElementById("recent-chevron");
+const recentBody = document.getElementById("billing-recent-body");
+
+if (toggleRecentBtn && recentBody) {
+    toggleRecentBtn.addEventListener("click", () => {
+        const isCollapsed = recentBody.classList.toggle("collapsed");
+        if (recentChevron) {
+            recentChevron.style.transform = isCollapsed ? "rotate(180deg)" : "";
+            recentChevron.style.transition = "transform 0.2s";
+        }
+    });
 }
 
+}
+
+
+
+// ================= COMPLETE SALE (Save Invoice Without Print/PDF) =================
+async function completeTransaction() {
+    const data = buildInvoiceData();
+    if (data.validItems.length === 0) {
+        alert("Cannot complete transaction. Please select at least one product with quantity > 0.");
+        return;
+    }
+    
+    if (!confirm(`Complete sale for ${data.customerName}? Amount: ₹${data.grandTotal.toFixed(2)}`)) {
+        return;
+    }
+    
+    // Save record & adjust stock in DB
+    if (AppState.editingInvoiceId) {
+        // Editing mode: restore old stock, update record, then deduct new stock
+        const originalInv = AppState.allInvoices.find(i => i.id === AppState.editingInvoiceId);
+        if (originalInv && originalInv.items) {
+            for (const item of originalInv.items) {
+                if (item.productId && item.qty > 0) {
+                    await db.updateProductStock(item.productId, -item.qty);
+                }
+            }
+        }
+        await db.updateInvoice(data.invoiceObj);
+        for (const item of data.validItems) {
+            if (item.productId && item.qty > 0) {
+                await db.updateProductStock(item.productId, item.qty);
+            }
+        }
+        AppState.editingInvoiceId = null;
+    } else {
+        await db.saveInvoice(data.invoiceObj);
+    }
+    
+    alert(`Sale completed successfully! Invoice ${data.invoiceId} saved.`);
+    initializeBillingCounter();
+    loadDashboardStats();
+}
+
+DOM.btnCompleteSale.addEventListener("click", completeTransaction);
 
 // ================= KEYBOARD SHORTCUTS =================
 document.addEventListener("keydown", (e) => {
