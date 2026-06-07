@@ -28,7 +28,7 @@
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
     
-    --sidebar-width: 260px;
+    --sidebar-width: clamp(210px, 18vw, 300px);
     --header-height: 70px;
     --transition-speed: 0.2s;
     --border-radius: 12px;
