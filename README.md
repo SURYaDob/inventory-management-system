@@ -18,7 +18,7 @@ A full-featured, browser-based **Inventory Management and Billing System** desig
 | **Invoice History** | Search, date range filter, CSV export, loading spinner |
 | **Customers** | CRUD directory with phone-based billing lookup |
 | **Backup/Restore** | Full JSON export/import, factory reset |
-| **UX** | Keyboard shortcuts, dark-styled modals, responsive layout |
+| **UX** | Keyboard shortcuts, dark mode toggle, dark-styled modals, responsive layout |
 
 ---
 
@@ -156,7 +156,16 @@ Manage your customer base:
 - **Search** — filter by name or phone
 - **Phone Auto-Lookup** — during billing, entering a phone number auto-fills the customer name from the directory
 
-### 7. Backup & Restore
+### 7. Dark Mode 🌙
+
+Reduce eye strain with a built-in dark theme:
+
+- **Toggle** — click the moon/sun icon button in the bottom-left corner of the sidebar (footer area)
+- **Persistence** — your theme preference is saved to browser local storage and automatically restored on next launch
+- **Coverage** — dark mode applies to every screen: login, sidebar, dashboard, inventory grids, billing counter, invoice history, modals, customer directory, and backup/restore screens
+- **Print Note** — dark mode is purely visual; invoice printouts and PDF downloads always use the clean light format
+
+### 8. Backup & Restore
 
 Database maintenance tools:
 
