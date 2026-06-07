@@ -664,6 +664,7 @@ const DOM = {
     modalResultCount: document.getElementById("modal-result-count"),
     modalCloseBtn: document.getElementById("modal-close-btn"),
     btnProductSearch: document.getElementById("btn-product-search"),
+    btnQuickSale: document.getElementById("btn-quick-sale"),
     
     // Invoice View Modal
     invoiceViewModal: document.getElementById("invoice-view-modal"),
@@ -2238,6 +2239,10 @@ document.addEventListener("keydown", (e) => {
             e.preventDefault();
             generateAndPrintInvoice();
             break;
+        case "F5":
+            e.preventDefault();
+            openQuickSaleModal();
+            break;
         case "Escape":
             if (!isInput) {
                 DOM.btnResetBill.click();
@@ -2245,6 +2250,310 @@ document.addEventListener("keydown", (e) => {
             break;
     }
 });
+
+
+// ================= QUICK SALE MODAL =================
+let quickSaleCart = [];
+
+async function openQuickSaleModal() {
+    // Load products for search
+    if (AppState.billingProducts.length === 0) {
+        AppState.billingProducts = await db.getAllProducts();
+    }
+    
+    quickSaleCart = [];
+    document.getElementById("qs-search-input").value = "";
+    document.getElementById("qs-cash-received").value = "";
+    document.getElementById("qs-total").textContent = "₹0.00";
+    document.getElementById("qs-change").textContent = "₹0.00";
+    document.getElementById("qs-item-count").textContent = "0 items";
+    document.getElementById("qs-cart-body").innerHTML = `
+        <div class="qs-empty-cart" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; margin: 0 auto 8px; opacity: 0.4;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            No items added yet. Search and click a product above.
+        </div>`;
+    document.getElementById("qs-search-results").innerHTML = `
+        <div class="qs-empty-hint" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; margin: 0 auto 8px; opacity: 0.4;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Type to search for products
+        </div>`;
+    
+    document.getElementById("quick-sale-modal").style.display = "flex";
+    setTimeout(() => document.getElementById("qs-search-input").focus(), 100);
+}
+
+function closeQuickSaleModal() {
+    document.getElementById("quick-sale-modal").style.display = "none";
+    quickSaleCart = [];
+}
+
+function renderQuickSaleResults() {
+    const query = document.getElementById("qs-search-input").value.toLowerCase().trim();
+    const container = document.getElementById("qs-search-results");
+    const products = AppState.billingProducts;
+    
+    if (!query) {
+        container.innerHTML = '<div class="qs-empty-hint" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; margin: 0 auto 8px; opacity: 0.4;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Type to search for products</div>';
+        return;
+    }
+    
+    const filtered = products.filter(p =>
+        p.name.toLowerCase().includes(query) ||
+        p.sku.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query)
+    );
+    
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="qs-empty-hint" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">No products found matching "' + query + '"</div>';
+        return;
+    }
+    
+    container.innerHTML = "";
+    filtered.slice(0, 8).forEach(prod => {
+        const stockCls = prod.stock === 0 ? "empty" : prod.stock < 10 ? "low" : "ok";
+        const stockLabel = prod.stock === 0 ? "OUT OF STOCK" : prod.stock + " left";
+        
+        const div = document.createElement("div");
+        div.className = "qs-product-item";
+        div.innerHTML = `
+            <div class="qs-prod-info">
+                <span class="qs-prod-name">${prod.name}</span>
+                <span class="qs-prod-meta">
+                    <span class="cat-badge-sm ${prod.category}">${prod.category.charAt(0).toUpperCase() + prod.category.slice(1)}</span>
+                    <span>${prod.sku}</span>
+                    <span class="qs-prod-stock badge-status ${stockCls}" style="font-size: 10px; padding: 1px 5px;">${stockLabel}</span>
+                </span>
+            </div>
+            <span class="qs-prod-price">₹${prod.sellingPrice.toFixed(2)}</span>
+        `;
+        
+        if (prod.stock > 0) {
+            div.addEventListener("click", () => addToQuickSaleCart(prod));
+        } else {
+            div.style.opacity = "0.5";
+            div.style.cursor = "not-allowed";
+            div.title = "Out of stock";
+        }
+        
+        container.appendChild(div);
+    });
+}
+
+function addToQuickSaleCart(prod) {
+    const existing = quickSaleCart.find(item => item.productId === prod.id);
+    const currentQty = existing ? existing.qty : 0;
+    if (currentQty + 1 > prod.stock) {
+        alert("Warning: Only " + prod.stock + " units of " + prod.name + " in stock.");
+        return;
+    }
+    if (existing) {
+        existing.qty++;
+    } else {
+        quickSaleCart.push({
+            id: Date.now() + Math.random(),
+            productId: prod.id,
+            name: prod.name,
+            rate: prod.sellingPrice,
+            qty: 1,
+            gstRate: prod.gstRate || 0
+        });
+    }
+    renderQuickSaleCart();
+    document.getElementById("qs-search-input").value = "";
+    document.getElementById("qs-search-input").focus();
+    renderQuickSaleResults();
+}
+
+function renderQuickSaleCart() {
+    const container = document.getElementById("qs-cart-body");
+    const countEl = document.getElementById("qs-item-count");
+    
+    if (quickSaleCart.length === 0) {
+        container.innerHTML = '<div class="qs-empty-cart" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; margin: 0 auto 8px; opacity: 0.4;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>No items added yet. Search and click a product above.</div>';
+        countEl.textContent = "0 items";
+        return;
+    }
+    
+    const totalItems = quickSaleCart.reduce((sum, item) => sum + item.qty, 0);
+    countEl.textContent = totalItems + " item" + (totalItems !== 1 ? "s" : "");
+    
+    container.innerHTML = "";
+    quickSaleCart.forEach(item => {
+        const lineTotal = item.rate * item.qty;
+        const row = document.createElement("div");
+        row.className = "qs-cart-row";
+        row.innerHTML = `
+            <span class="qs-cart-name" title="${item.name}">${item.name}</span>
+            <span class="qs-cart-rate">₹${item.rate.toFixed(2)}</span>
+            <input type="number" class="qs-cart-qty" value="${item.qty}" min="0" step="1" data-item-id="${item.id}">
+            <span class="qs-cart-total">₹${lineTotal.toFixed(2)}</span>
+            <button class="qs-cart-remove" data-item-id="${item.id}" title="Remove">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        `;
+        
+        row.querySelector(".qs-cart-qty").addEventListener("change", (e) => {
+            const newQty = parseInt(e.target.value) || 0;
+            const cartItem = quickSaleCart.find(i => i.id === item.id);
+            if (cartItem) {
+                if (newQty <= 0) {
+                    quickSaleCart = quickSaleCart.filter(i => i.id !== item.id);
+                } else {
+                    cartItem.qty = newQty;
+                }
+                renderQuickSaleCart();
+                updateQuickSaleTotals();
+            }
+        });
+        
+        row.querySelector(".qs-cart-remove").addEventListener("click", () => {
+            quickSaleCart = quickSaleCart.filter(i => i.id !== item.id);
+            renderQuickSaleCart();
+            updateQuickSaleTotals();
+        });
+        
+        container.appendChild(row);
+    });
+    updateQuickSaleTotals();
+}
+
+function updateQuickSaleTotals() {
+    let subtotal = 0;
+    quickSaleCart.forEach(item => {
+        subtotal += item.rate * item.qty;
+    });
+    
+    const gstEnabled = false; // Quick sale = non-GST for simplicity
+    const total = subtotal;
+    document.getElementById("qs-total").textContent = "₹" + total.toFixed(2);
+    
+    const cash = parseFloat(document.getElementById("qs-cash-received").value) || 0;
+    if (cash > 0) {
+        const change = cash - total;
+        const changeEl = document.getElementById("qs-change");
+        changeEl.textContent = "₹" + change.toFixed(2);
+        changeEl.style.color = change >= 0 ? "var(--accent-emerald)" : "var(--accent-rose)";
+    } else {
+        document.getElementById("qs-change").textContent = "₹0.00";
+        document.getElementById("qs-change").style.color = "";
+    }
+}
+
+async function completeQuickSale(andPrint) {
+    if (quickSaleCart.length === 0) {
+        alert("Please add at least one product to the cart.");
+        return;
+    }
+    
+    const validItems = quickSaleCart.filter(item => item.qty > 0);
+    if (validItems.length === 0) {
+        alert("All items have zero quantity. Please adjust quantities.");
+        return;
+    }
+    
+    // Build invoice data
+    const invoiceId = "INV-" + Math.floor(Math.random() * 90000 + 10000);
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    const billDate = now.toISOString().split("T")[0];
+    const billTime = now.toTimeString().slice(0, 5);
+    
+    let subtotal = 0;
+    for (const item of validItems) {
+        subtotal += item.rate * item.qty;
+    }
+    const totalGst = 0; // Quick sale = non-GST
+    
+    const invoiceObj = {
+        invoiceId,
+        date: billDate,
+        time: billTime,
+        datetime: billDate + "T" + billTime,
+        customerName: "Walk-in Customer",
+        customerPhone: "-",
+        items: validItems,
+        subtotal,
+        gstTax: 0,
+        total: subtotal,
+        gstEnabled: false
+    };
+    
+    // Save to DB and deduct stock
+    await db.saveInvoice(invoiceObj);
+    
+    if (andPrint) {
+        // Populate print template
+        document.getElementById("print-inv-id").textContent = invoiceId;
+        document.getElementById("print-inv-date").textContent = new Date(billDate).toLocaleDateString("en-IN");
+        const [h, m] = billTime.split(":").map(Number);
+        const ampm = h >= 12 ? "PM" : "AM";
+        const h12 = h % 12 || 12;
+        document.querySelector("#print-inv-time").textContent = h12 + ":" + pad(m) + " " + ampm;
+        document.getElementById("print-cust-name").textContent = "Walk-in Customer";
+        document.getElementById("print-cust-phone").textContent = "-";
+        
+        const printBody = document.getElementById("print-invoice-body");
+        printBody.innerHTML = "";
+        validItems.forEach((item, idx) => {
+            const row = document.createElement("tr");
+            row.innerHTML = '<td>' + (idx + 1) + '</td><td>' + item.name + '</td><td>' + item.rate.toFixed(2) + '</td><td>' + item.qty + '</td><td class="print-gst-col" style="display: none;">0%</td><td class="print-gst-col" style="display: none;">0.00</td><td style="text-align: right;">' + (item.rate * item.qty).toFixed(2) + '</td>';
+            printBody.appendChild(row);
+        });
+        
+        document.getElementById("print-subtotal").textContent = "₹" + subtotal.toFixed(2);
+        document.getElementById("print-gst-rows").style.display = "none";
+        document.querySelectorAll(".print-gst-col").forEach(el => el.style.display = "none");
+        document.getElementById("print-grand-total").textContent = "₹" + subtotal.toFixed(2);
+        
+        closeQuickSaleModal();
+        window.print();
+    }
+    
+    alert("Quick sale completed! Invoice " + invoiceId + " saved.");
+    closeQuickSaleModal();
+    
+    // Refresh billing products and recent transactions
+    AppState.billingProducts = await db.getAllProducts();
+    try {
+        const allInv = await db.getAllInvoices();
+        AppState.allInvoices = allInv.reverse();
+    } catch (e) {}
+    loadRecentBillingHistory();
+    loadDashboardStats();
+}
+
+// Quick Sale button event
+document.getElementById("btn-quick-sale").addEventListener("click", openQuickSaleModal);
+
+// Quick Sale search input
+document.getElementById("qs-search-input").addEventListener("input", renderQuickSaleResults);
+
+// Quick Sale cash received
+document.getElementById("qs-cash-received").addEventListener("input", updateQuickSaleTotals);
+
+// Quick Sale close button
+document.getElementById("qs-close-btn").addEventListener("click", closeQuickSaleModal);
+
+// Close on overlay click
+document.getElementById("quick-sale-modal").addEventListener("click", (e) => {
+    if (e.target === document.getElementById("quick-sale-modal")) closeQuickSaleModal();
+});
+
+// Quick Sale Complete buttons
+document.getElementById("qs-complete-sale").addEventListener("click", () => completeQuickSale(false));
+document.getElementById("qs-complete-print").addEventListener("click", () => completeQuickSale(true));
+
+// Quick Sale search keyboard
+document.getElementById("qs-search-input").addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeQuickSaleModal();
+    if (e.key === "Enter") {
+        e.preventDefault();
+        // Select first visible product
+        const first = document.querySelector(".qs-product-item:not([style*=\"opacity\"])");
+        if (first) first.click();
+    }
+});
+
 
 // ================= INVOICE DATA BUILDER =================
 // Shared helper for both print and PDF invoice generation

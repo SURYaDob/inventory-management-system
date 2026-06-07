@@ -364,6 +364,10 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                                 Reset Invoice
                             </button>
+                            <button id="btn-quick-sale" class="btn btn-success" title="Quick Sale (F5)">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                Quick Sale
+                            </button>
                         </div>
                     </header>
 
@@ -681,7 +685,79 @@
 
     </div>
 
-    <!-- ================= PRINT INVOICE TEMPLATE (Hidden from Main View, Active on Printer) ================= -->
+    
+    <!-- ================= QUICK SALE MODAL ================= -->
+    <div id="quick-sale-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 700px; max-height: 85vh;">
+            <div class="modal-header">
+                <h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Quick Sale Checkout
+                </h2>
+                <button class="modal-close-btn" id="qs-close-btn" title="Close (Esc)">&times;</button>
+            </div>
+            
+            <!-- Product Search -->
+            <div class="modal-search">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="modal-search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="qs-search-input" placeholder="Search products by name, SKU, or category...">
+            </div>
+            
+            <!-- Search Results -->
+            <div id="qs-search-results" class="qs-search-results" style="max-height: 180px; overflow-y: auto; border-bottom: 1px solid var(--border-color);">
+                <div class="qs-empty-hint" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; margin: 0 auto 8px; opacity: 0.4;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    Type to search for products
+                </div>
+            </div>
+            
+            <!-- Cart Items -->
+            <div class="qs-cart-section" style="flex: 1; overflow-y: auto; padding: 12px 24px; min-height: 100px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-weight: 600; font-size: 14px;">Cart Items</span>
+                    <span id="qs-item-count" class="text-muted" style="font-size: 12px;">0 items</span>
+                </div>
+                <div id="qs-cart-body">
+                    <div class="qs-empty-cart" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; margin: 0 auto 8px; opacity: 0.4;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        No items added yet. Search and click a product above.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Totals & Actions -->
+            <div class="qs-footer" style="border-top: 1px solid var(--border-color); padding: 14px 24px; background: var(--bg-secondary);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="input-group" style="margin: 0; width: 140px;">
+                            <label style="font-size: 11px; margin-bottom: 2px;">Cash Received</label>
+                            <input type="number" id="qs-cash-received" placeholder="0.00" style="padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; width: 100%; background: #fff;">
+                        </div>
+                        <div style="font-size: 13px;">
+                            <span class="text-muted">Change: </span>
+                            <span id="qs-change" class="col-mono" style="font-weight: 600;">₹0.00</span>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="text-muted" style="font-size: 12px;">Total</div>
+                        <div id="qs-total" class="col-mono" style="font-size: 22px; font-weight: 700; color: var(--accent-emerald);">₹0.00</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button id="qs-complete-sale" class="btn btn-success" style="flex: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        Complete Sale
+                    </button>
+                    <button id="qs-complete-print" class="btn btn-primary" style="flex: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        Complete & Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PRINT INVOICE TEMPLATE (Hidden from Main View, Active on Printer) ================= -->
     <div id="print-invoice-wrapper" class="print-only">
         <div class="print-invoice-container">
             <div class="print-header">
