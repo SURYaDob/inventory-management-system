@@ -2080,14 +2080,22 @@ function loadRecentBillingHistory() {
     
     if (!recentBody) return;
     
-    // Get the latest 8 invoices from AppState
-    const invoices = AppState.allInvoices.length > 0 
-        ? AppState.allInvoices 
-        : [];
+    // Get search query
+    const searchInput = document.getElementById("bill-history-search");
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
     
-    const recent = invoices.slice(0, 8);
+    // Get ALL invoices from AppState (not just latest 8)
+    const invoices = AppState.allInvoices.length > 0 ? AppState.allInvoices : [];
     
-    if (recent.length === 0) {
+    // Filter by search query
+    const filtered = query ? invoices.filter(inv => {
+        const invId = (inv.invoiceId || "").toLowerCase();
+        const custName = (inv.customerName || "").toLowerCase();
+        const custPhone = (inv.customerPhone || "");
+        return invId.includes(query) || custName.includes(query) || custPhone.includes(query);
+    }) : invoices;
+    
+    if (filtered.length === 0) {
         if (recentTable) recentTable.style.display = "none";
         if (recentEmpty) recentEmpty.style.display = "flex";
         if (recentCount) recentCount.textContent = "0";
@@ -2096,42 +2104,47 @@ function loadRecentBillingHistory() {
     
     if (recentTable) recentTable.style.display = "";
     if (recentEmpty) recentEmpty.style.display = "none";
-    if (recentCount) recentCount.textContent = recent.length;
+    if (recentCount) recentCount.textContent = filtered.length;
     
     recentBody.innerHTML = "";
-    recent.forEach(inv => {
+    filtered.forEach((inv, index) => {
         const tr = document.createElement("tr");
+        tr.setAttribute("data-inv-id", inv.id);
         const dateStr = inv.date ? new Date(inv.date).toLocaleDateString("en-IN") : "-";
         const isToday = inv.date === new Date().toISOString().split("T")[0];
+        const gstEnabled = inv.gstEnabled !== false;
         
         tr.innerHTML = `
-            <td><span class="recent-inv-id">${inv.invoiceId || "-"}</span></td>
-            <td class="col-mono" style="font-size: 12px; color: var(--text-muted);">${dateStr}${isToday ? ' <span class="badge-status ok" style="font-size: 9px; padding: 1px 5px;">Today</span>' : ''}</td>
-            <td><span class="recent-customer" title="${(inv.customerName || "Walk-in").replace(/"/g, '&quot;')}">${inv.customerName || "Walk-in"}</span></td>
-            <td style="text-align: right;"><span class="recent-amount">₹${(inv.total || 0).toFixed(2)}</span></td>
+            <td class="text-muted text-center" style="font-size: 12px;">${index + 1}</td>
+            <td><span class="bh-inv-id">${inv.invoiceId || "-"}</span></td>
+            <td class="col-mono" style="font-size: 12px; color: var(--text-muted);">
+                ${dateStr}
+                ${isToday ? '<span class="bh-today-badge">Today</span>' : ''}
+            </td>
+            <td>
+                <span class="bh-cell-editable" contenteditable="true" data-field="customerName" data-inv-id="${inv.id}" title="Click to edit customer name">${inv.customerName || "Walk-in"}</span>
+            </td>
+            <td>
+                <span class="bh-cell-editable col-mono" contenteditable="true" data-field="customerPhone" data-inv-id="${inv.id}" title="Click to edit phone">${inv.customerPhone || "-"}</span>
+            </td>
+            <td style="text-align: right;"><span class="bh-amount" style="color: var(--text-secondary);">₹${(inv.subtotal || 0).toFixed(2)}</span></td>
+            <td style="text-align: right; display: ${gstEnabled ? "" : "none"};" class="bh-gst-col"><span class="bh-amount" style="color: var(--text-muted);">₹${(inv.gstTax || 0).toFixed(2)}</span></td>
+            <td style="text-align: right;"><span class="bh-amount bh-grand-total">₹${(inv.total || 0).toFixed(2)}</span></td>
             <td style="text-align: center;">
-                <div class="recent-actions">
-                    <button class="btn btn-icon btn-outline" title="View Invoice" data-view-id="${inv.id}" style="padding: 3px 6px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <div class="bh-actions">
+                    <button class="btn btn-primary btn-sm" title="Print Invoice" data-print-id="${inv.id}" style="padding: 4px 8px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        Print
                     </button>
-                    <button class="btn btn-icon btn-outline" title="Reprint Invoice" data-print-id="${inv.id}" style="padding: 3px 6px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    <button class="btn btn-success btn-sm" title="Download PDF" data-pdf-id="${inv.id}" style="padding: 4px 8px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        PDF
                     </button>
                 </div>
             </td>
         `;
         
-        // View Invoice button
-        const viewBtn = tr.querySelector('[data-view-id="' + inv.id + '"]');
-        if (viewBtn) {
-            viewBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                const invData = AppState.allInvoices.find(i => i.id === inv.id);
-                if (invData) openInvoiceViewModal(invData);
-            });
-        }
-        
-        // Reprint button
+        // Print button
         const printBtn = tr.querySelector('[data-print-id="' + inv.id + '"]');
         if (printBtn) {
             printBtn.addEventListener("click", (e) => {
@@ -2141,8 +2154,77 @@ function loadRecentBillingHistory() {
             });
         }
         
+        // PDF button
+        const pdfBtn = tr.querySelector('[data-pdf-id="' + inv.id + '"]');
+        if (pdfBtn) {
+            pdfBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const invData = AppState.allInvoices.find(i => i.id === inv.id);
+                if (invData) downloadPDFInvoice(invData);
+            });
+        }
+        
+        // Editable cell save on blur
+        const editableCells = tr.querySelectorAll(".bh-cell-editable");
+        editableCells.forEach(cell => {
+            cell.addEventListener("blur", async () => {
+                const field = cell.getAttribute("data-field");
+                const invId = parseInt(cell.getAttribute("data-inv-id"));
+                const newValue = cell.textContent.trim() || (field === "customerName" ? "Walk-in" : "-");
+                
+                // Find and update the invoice in AppState
+                const invData = AppState.allInvoices.find(i => i.id === invId);
+                if (invData && invData[field] !== newValue) {
+                    invData[field] = newValue;
+                    // Save to database
+                    try {
+                        await db.updateInvoice(invData);
+                        cell.style.borderColor = "rgba(16, 185, 129, 0.3)";
+                        cell.style.background = "rgba(16, 185, 129, 0.05)";
+                        setTimeout(() => {
+                            cell.style.borderColor = "";
+                            cell.style.background = "";
+                        }, 1000);
+                    } catch (err) {
+                        console.error("Failed to update invoice:", err);
+                        cell.style.borderColor = "rgba(239, 68, 68, 0.3)";
+                        cell.style.background = "rgba(239, 68, 68, 0.05)";
+                        setTimeout(() => {
+                            cell.style.borderColor = "";
+                            cell.style.background = "";
+                        }, 1500);
+                    }
+                }
+            });
+            
+            // Save on Enter (prevent newline)
+            cell.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    cell.blur();
+                }
+                if (e.key === "Escape") {
+                    // Reset to original value
+                    const invId = parseInt(cell.getAttribute("data-inv-id"));
+                    const field = cell.getAttribute("data-field");
+                    const invData = AppState.allInvoices.find(i => i.id === invId);
+                    if (invData) {
+                        cell.textContent = invData[field] || (field === "customerName" ? "Walk-in" : "-");
+                    }
+                    cell.blur();
+                }
+            });
+        });
+        
         recentBody.appendChild(tr);
     });
+}
+
+
+// Bill history search input
+const billHistorySearch = document.getElementById("bill-history-search");
+if (billHistorySearch) {
+    billHistorySearch.addEventListener("input", loadRecentBillingHistory);
 }
 
 // View All button in billing recent transactions

@@ -1753,6 +1753,157 @@ input:checked + .slider:before {
 }
 
 
+
+/* ================= BILL HISTORY GRID (Full Editable) ================= */
+.bill-history-table-wrapper {
+    overflow-x: auto;
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.bill-history-grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.bill-history-grid th {
+    padding: 8px 12px;
+    background: rgba(15, 23, 42, 0.03);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.bill-history-grid td {
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.bill-history-grid tbody tr {
+    transition: background 0.15s;
+}
+
+.bill-history-grid tbody tr:hover {
+    background: rgba(79, 70, 229, 0.04);
+}
+
+.bill-history-grid .bh-inv-id {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--accent-indigo);
+}
+
+.bill-history-grid .bh-amount {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.bill-history-grid .bh-grand-total {
+    color: var(--accent-emerald);
+}
+
+.bill-history-grid .bh-actions {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.bill-history-grid .bh-actions button {
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 6px;
+}
+
+/* Editable cell styling */
+.bill-history-grid .bh-cell-editable {
+    cursor: text;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    min-height: 24px;
+}
+
+.bill-history-grid .bh-cell-editable:hover {
+    border-color: var(--border-color);
+    background: rgba(79, 70, 229, 0.03);
+}
+
+.bill-history-grid .bh-cell-editable:focus {
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 0 2px var(--accent-indigo-glow);
+    background: #ffffff;
+    outline: none;
+}
+
+/* Today badge */
+.bill-history-grid .bh-today-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent-emerald);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    margin-left: 4px;
+    text-transform: uppercase;
+}
+
+/* Search in recent header */
+.billing-recent-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Dark mode overrides */
+.dark-mode .bill-history-grid th {
+    background: rgba(15, 23, 42, 0.4);
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .bill-history-grid td {
+    border-color: var(--dark-border-color);
+}
+
+.dark-mode .bill-history-grid tbody tr:hover {
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.dark-mode .bill-history-grid .bh-cell-editable:hover {
+    border-color: var(--dark-border-color);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.dark-mode .bill-history-grid .bh-cell-editable:focus {
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 0 2px var(--dark-accent-indigo-glow);
+    background: #1e293b;
+}
+
+.dark-mode #bill-history-search {
+    background: #1e293b;
+    border-color: var(--dark-border-color) !important;
+    color: var(--dark-text-primary);
+}
+
+.dark-mode #bill-history-search:focus {
+    border-color: var(--accent-indigo) !important;
+    box-shadow: 0 0 0 2px var(--dark-accent-indigo-glow);
+}
+
 .billing-recent-body.collapsed {
     display: none;
 }

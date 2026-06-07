@@ -492,20 +492,20 @@
 
                 
 
-                    <!-- ================= RECENT TRANSACTIONS ================= -->
-
-                
-
-                    <!-- ================= RECENT TRANSACTIONS ================= -->
-<div class="billing-recent-section">
+                                        <!-- ================= BILL HISTORY (ALL TRANSACTIONS) ================= -->
+                    <div class="billing-recent-section">
                         <div class="billing-recent-header" id="billing-recent-header">
                             <div class="billing-recent-title">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                                <span>Recent Transactions</span>
+                                <span>All Bills</span>
                                 <span id="billing-recent-count" class="recent-count-badge">0</span>
                             </div>
+                            <div class="billing-recent-search">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 10px; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input type="text" id="bill-history-search" placeholder="Search by invoice ID, customer, phone..." style="padding: 6px 10px 6px 30px; font-size: 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; background: #fff; width: 220px;">
+                            </div>
                             <div class="billing-recent-actions">
-                                <button id="btn-view-all-invoices" class="btn btn-sm btn-outline">View All</button>
+                                <button id="btn-view-all-invoices" class="btn btn-sm btn-outline">Full Invoice Logs</button>
                                 <button id="btn-toggle-recent" class="btn btn-icon btn-outline" title="Toggle Panel" style="padding: 3px 6px;">
                                     <svg id="recent-chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                                 </button>
@@ -514,21 +514,27 @@
                         <div class="billing-recent-body" id="billing-recent-body">
                             <div class="billing-recent-empty">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                                <span>No recent transactions. Create your first bill above!</span>
+                                <span>No bills found. Create your first bill above!</span>
                             </div>
-                            <table class="billing-recent-table" id="billing-recent-table" style="display: none;">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 110px;">Invoice ID</th>
-                                        <th style="width: 100px;">Date</th>
-                                        <th>Customer</th>
-                                        <th style="width: 90px; text-align: right;">Amount</th>
-                                        <th style="width: 100px; text-align: center;">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="billing-recent-body-rows">
-                                </tbody>
-                            </table>
+                            <div class="bill-history-table-wrapper">
+                                <table class="bill-history-grid" id="billing-recent-table" style="display: none;">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40px;">#</th>
+                                            <th style="width: 110px;">Invoice ID</th>
+                                            <th style="width: 95px;">Date</th>
+                                            <th style="min-width: 120px;">Customer</th>
+                                            <th style="width: 110px;">Phone</th>
+                                            <th style="width: 85px; text-align: right;">Subtotal</th>
+                                            <th style="width: 75px; text-align: right;" class="bh-gst-col">GST</th>
+                                            <th style="width: 95px; text-align: right;">Grand Total</th>
+                                            <th style="width: 100px; text-align: center;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="billing-recent-body-rows">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 </section>
