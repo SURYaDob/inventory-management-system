@@ -1,0 +1,124 @@
+IMS (Inventory Management System) - User Guide & Operation Manual
+Welcome to IMS, the custom desktop inventory and billing software designed for hardware shop operations.
+ This guide walks you through every screen and feature from a user's perspective, helping you manage stock,
+ register operators, and execute billing transactions.
+------------------------------------------------------------------------------
+🚀 1. Getting Started & Logging In
+
+How to Launch the App
+
+Go to your computer's Desktop.
+Find the icon named IMS and double-click it.
+A clean, borderless window will open.
+First-Time Sign In
+The app automatically seeds a default system administrator account.
+On the login page, enter:
+Username: admin
+Password: admin
+Click Sign In.
+NOTE
+
+Session Safety: To secure your billing counter, the app logs you out automatically every time you close the window. 
+You will be prompted to log in on each fresh launch.
+------------------------------------------------------------------------------
+👥 2. Registering New User Accounts
+If you have multiple shop operators or cashiers, you can register individual accounts:
+
+On the login screen, click the "Register here" link at the bottom of the card. 
+(If you don't see it, press Ctrl + F5 inside the app window to refresh the layout).
+
+Fill in the operator's details:
+Full Name: (e.g., Suraj Kumar)
+Username: Choose a login name (e.g., suraj)
+Password: Choose a secure login password
+Role: Choose Cashier / Operator (for general sales billing) or Administrator (for full database maintenance access).
+Click Create Account.
+The screen will show a success message and automatically return to the Sign-In view in 1.5 seconds, allowing the new user to log in immediately.
+------------------------------------------------------------------------------
+📊 3. Navigating the Dashboard
+Once logged in, you will land on the Business Dashboard:
+
+Sales Revenue (Today): Shows total revenue generated from bills created today, alongside the count of active transactions.
+Total Products: Displays the size of your active store catalog.
+Low Stock Warnings: Glows amber and displays the count of products whose stock is under 10 units.
+Alarm Center: At the bottom, a real-time table lists exactly which items are running low or out-of-stock so you can re-order.
+Category Tiles: Clicking any category tile (Electrical, Plumbing, Paint, or Hardware) jumps directly to that category's inventory sheet.
+------------------------------------------------------------------------------
+🗃️ 4. Managing Inventory (Excel Sheets)
+Each category features an Excel-style Spreadsheet for quick data entry:
+
+Column	Description	Edit Method
+SKU / Code	Unique barcode/item code	Single-click & type
+Product Name	Display name on bills	Single-click & type
+Purchase Price	Wholesale price (what you paid)	Single-click & type
+Selling Price	Retail price (what you charge)	Single-click & type
+Stock Qty	Current items in shelf	Single-click & type
+GST %	Item-specific tax rate (e.g., 18%)	Single-click & type
+How to Edit Stock Details
+Single-click on any cell you want to modify (e.g., stock number or price).
+Type the new value.
+Press Enter or click outside the row to save. The changes persist immediately to your local database.
+Press Tab to move to the next cell horizontally for rapid entry.
+Adding & Deleting Stock
+Add a Product: Click the green "Add Row" button. A new row with a random SKU is created. 
+The name cell focuses automatically so you can start typing immediately.
+Delete a Product: Click the red trash bin button on the right side of the row and confirm deletion.
+Search Catalog: Type in the top-right search box to filter products in real-time.
+CSV Import & Export
+Export CSV: Click "Export CSV" to download the current category catalog as a spreadsheet file (compatible with Microsoft Excel).
+Import CSV: Click "Import CSV" and select a formatted .csv file to bulk-import items.
+------------------------------------------------------------------------------
+💳 5. Creating a Bill (Sales Counter)
+
+The Billing Counter is where you ring up customer purchases:
+
+[Customer Info] ➔ [Add Product Items] ➔ [Toggle GST (Optional)] ➔ [Collect Cash] ➔ [Print/PDF]
+Steps to Generate a Bill:
+Enter Customer Details: Fill in the Customer's Name, Phone Number, and Invoice Date (defaults to today).
+Add Items:
+Click inside the Product Name box on a row.
+Type the name or SKU of the product. An autocomplete dropdown will display matching inventory items with their current stock levels.
+Click the correct item. The system auto-fills the SKU, Selling Price (Rate), and GST %.
+Set Quantities:
+Enter the sold quantity in the Qty box.
+The row total and tax values calculate in real-time.
+If the quantity exceeds available inventory stock, the system will prompt a warning but still allow sale.
+Click the "Add Row" button to append more products.
+GST Tax Switch:
+If the customer wants a GST bill, keep "Enable GST Billing" toggled ON (shows CGST/SGST summary breakdown).
+If it is a retail non-GST sale, toggle it OFF. All GST columns hide, and the Grand Total matches the basic subtotal.
+Collect Cash & Calculate Change:
+Enter the cash handed over by the customer in Cash Received.
+The Balance / Change box displays the exact amount to return.
+------------------------------------------------------------------------------
+🖨️ 6. Printing Receipts & Downloading PDFs
+Once items are entered, use the bottom buttons to finalize:
+
+Option A: Print Receipt (Thermal or Page)
+Click "Print Invoice".
+The print preview window opens.
+The receipt stylesheet automatically hides all sidebars, buttons, and dashboards, formatting a clean receipt containing store details, invoice metadata, customer phone, lines table, and tax totals.
+Choose your printer and click Print.
+The system deducts the items from your inventory database, logs the invoice history, and resets the billing counter for the next customer.
+Option B: Download PDF Bill
+Click "Save as PDF".
+A PDF document (e.g., INV-12345_IMS_Receipt.pdf) downloads to your machine containing a header invoice receipt.
+Saves the transaction and updates inventory stocks.
+------------------------------------------------------------------------------
+📖 7. Checking Invoice Transaction Logs
+To review past transactions:
+
+Click "Invoice Logs" in the sidebar.
+Review all past transactions: Date, Customer, Phone, Subtotal, GST, and Grand Total.
+Search Invoices: Use the search box to filter records by Customer Name, Phone, or Invoice ID (e.g., INV-10293).
+Reprint: Click the Print Icon on any historical row to re-open the print layout and print another copy of that specific bill.
+------------------------------------------------------------------------------
+⚙️ 8. Database Maintenance & Backups
+
+Your data is stored locally on this computer. To manage backups:
+
+Export JSON Backup: In Backup / Restore, click the primary button to download a complete backup file containing all products, users, 
+and invoice histories. Save this file to a USB drive or cloud drive weekly. Restore JSON Backup: Click "Restore JSON Backup",
+choose your saved backup file, and confirm. This restores all inventory items and transactions (Warning: overwrites current data).
+Reset Database: Click "Wipe Complete Database" inside the red-bordered box to completely reset the system to factory settings.
+------------------------------------------------------------------------------
