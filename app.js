@@ -2157,9 +2157,9 @@ function loadRecentBillingHistory() {
         
         tr.innerHTML = `
             <td class="text-muted text-center" style="font-size: 12px;">${index + 1}</td>
-            <td><span class="bh-inv-id">${inv.invoiceId || "-"}</span></td>
+            <td><span class="bh-cell-editable bh-inv-id" contenteditable="true" data-field="invoiceId" data-inv-id="${inv.id}" title="Click to edit invoice ID">${inv.invoiceId || "-"}</span></td>
             <td class="col-mono" style="font-size: 12px; color: var(--text-muted);">
-                ${dateStr}
+                <span class="bh-cell-editable" contenteditable="true" data-field="date" data-inv-id="${inv.id}" title="Click to edit date (YYYY-MM-DD)" style="font-size: 12px;">${inv.date || ""}</span>
                 ${isToday ? '<span class="bh-today-badge">Today</span>' : ''}
             </td>
             <td>
@@ -2168,9 +2168,9 @@ function loadRecentBillingHistory() {
             <td>
                 <span class="bh-cell-editable col-mono" contenteditable="true" data-field="customerPhone" data-inv-id="${inv.id}" title="Click to edit phone">${inv.customerPhone || "-"}</span>
             </td>
-            <td style="text-align: right;"><span class="bh-amount" style="color: var(--text-secondary);">₹${(inv.subtotal || 0).toFixed(2)}</span></td>
-            <td style="text-align: right; display: ${gstEnabled ? "" : "none"};" class="bh-gst-col"><span class="bh-amount" style="color: var(--text-muted);">₹${(inv.gstTax || 0).toFixed(2)}</span></td>
-            <td style="text-align: right;"><span class="bh-amount bh-grand-total">₹${(inv.total || 0).toFixed(2)}</span></td>
+            <td style="text-align: right;"><span class="bh-cell-editable bh-amount" contenteditable="true" data-field="subtotal" data-inv-id="${inv.id}" title="Click to edit subtotal" style="color: var(--text-secondary);">${(inv.subtotal || 0).toFixed(2)}</span></td>
+            <td style="text-align: right; display: ${gstEnabled ? "" : "none"};" class="bh-gst-col"><span class="bh-cell-editable bh-amount" contenteditable="true" data-field="gstTax" data-inv-id="${inv.id}" title="Click to edit GST amount" style="color: var(--text-muted);">${(inv.gstTax || 0).toFixed(2)}</span></td>
+            <td style="text-align: right;"><span class="bh-cell-editable bh-amount bh-grand-total" contenteditable="true" data-field="total" data-inv-id="${inv.id}" title="Click to edit grand total">${(inv.total || 0).toFixed(2)}</span></td>
             <td style="text-align: center;">
                 <div class="bh-actions">
                     <button class="btn btn-primary btn-sm" title="Print Invoice" data-print-id="${inv.id}" style="padding: 4px 8px;">
@@ -2211,11 +2211,31 @@ function loadRecentBillingHistory() {
             cell.addEventListener("blur", async () => {
                 const field = cell.getAttribute("data-field");
                 const invId = parseInt(cell.getAttribute("data-inv-id"));
-                const newValue = cell.textContent.trim() || (field === "customerName" ? "Walk-in" : "-");
+                const rawValue = cell.textContent.trim();
+                
+                // Parse value based on field type
+                let newValue;
+                const numericFields = ["subtotal", "gstTax", "total"];
+                if (numericFields.includes(field)) {
+                    // Strip non-numeric chars (except . and -), parse as float
+                    newValue = parseFloat(rawValue.replace(/[^0-9.-]/g, "")) || 0;
+                    // Format display back to proper number
+                    cell.textContent = newValue.toFixed(2);
+                } else if (field === "date") {
+                    newValue = rawValue || new Date().toISOString().split("T")[0];
+                } else if (field === "customerName") {
+                    newValue = rawValue || "Walk-in";
+                } else if (field === "customerPhone") {
+                    newValue = rawValue || "-";
+                } else if (field === "invoiceId") {
+                    newValue = rawValue || "-";
+                } else {
+                    newValue = rawValue || "-";
+                }
                 
                 // Find and update the invoice in AppState
                 const invData = AppState.allInvoices.find(i => i.id === invId);
-                if (invData && invData[field] !== newValue) {
+                if (invData && String(invData[field]) !== String(newValue)) {
                     invData[field] = newValue;
                     // Save to database
                     try {
