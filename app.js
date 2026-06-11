@@ -1,7 +1,7 @@
 // ================= DATABASE MANAGER (IndexedDB) =================
 class DBManager {
     constructor() {
-        this.dbName = "IMS_HardwareShopDB";
+        this.dbName = "MAHI_TRADERS_DB";
         this.dbVersion = 3; // Incremented version for customers store
         this.db = null;
     }
@@ -861,9 +861,9 @@ DOM.loginForm.addEventListener("submit", async (e) => {
             
             if (passwordMatch) {
                 AppState.currentUser = user.username;
-                sessionStorage.setItem("ims_logged_in", "true");
-                sessionStorage.setItem("ims_user_fullname", user.fullname);
-                sessionStorage.setItem("ims_user_role", user.role);
+                sessionStorage.setItem("mahi_traders_logged_in", "true");
+                sessionStorage.setItem("mahi_traders_user_fullname", user.fullname);
+                sessionStorage.setItem("mahi_traders_user_role", user.role);
                 
                 // Update User Metadata in footer
                 document.querySelector(".user-avatar").textContent = user.fullname.charAt(0).toUpperCase();
@@ -889,9 +889,9 @@ DOM.loginForm.addEventListener("submit", async (e) => {
 
 DOM.logoutBtn.addEventListener("click", () => {
     AppState.currentUser = null;
-    sessionStorage.removeItem("ims_logged_in");
-    sessionStorage.removeItem("ims_user_fullname");
-    sessionStorage.removeItem("ims_user_role");
+    sessionStorage.removeItem("mahi_traders_logged_in");
+    sessionStorage.removeItem("mahi_traders_user_fullname");
+    sessionStorage.removeItem("mahi_traders_user_role");
     DOM.mainLayout.classList.remove("active");
     DOM.loginScreen.classList.add("active");
 });
@@ -906,17 +906,17 @@ function applyTheme(isDark) {
         document.documentElement.classList.add("dark-mode");
         themeIcon.style.display = "";
         themeIconSun.style.display = "none";
-        localStorage.setItem("ims_theme", "dark");
+        localStorage.setItem("mahi_traders_theme", "dark");
     } else {
         document.documentElement.classList.remove("dark-mode");
         themeIcon.style.display = "none";
         themeIconSun.style.display = "";
-        localStorage.setItem("ims_theme", "light");
+        localStorage.setItem("mahi_traders_theme", "light");
     }
 }
 
 // Load saved theme on startup
-const savedTheme = localStorage.getItem("ims_theme");
+const savedTheme = localStorage.getItem("mahi_traders_theme");
 if (savedTheme === "dark") {
     applyTheme(true);
 } else {
@@ -933,9 +933,9 @@ themeToggle.addEventListener("click", () => {
 
 // Auto login check
 function checkAuth() {
-    if (sessionStorage.getItem("ims_logged_in") === "true") {
-        const fullname = sessionStorage.getItem("ims_user_fullname") || "Administrator";
-        const role = sessionStorage.getItem("ims_user_role") || "Admin";
+    if (sessionStorage.getItem("mahi_traders_logged_in") === "true") {
+        const fullname = sessionStorage.getItem("mahi_traders_user_fullname") || "Administrator";
+        const role = sessionStorage.getItem("mahi_traders_user_role") || "Admin";
         AppState.currentUser = fullname;
         
         document.querySelector(".user-avatar").textContent = fullname.charAt(0).toUpperCase();
@@ -1169,7 +1169,7 @@ DOM.btnExportCSV.addEventListener("click", () => {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `IMS_Inventory_${category}_${new Date().toISOString().split("T")[0]}.csv`);
+    link.setAttribute("download", `MAHI_TRADERS_Inventory_${category}_${new Date().toISOString().split("T")[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -1228,7 +1228,7 @@ async function initializeBillingCounter() {
     try {
         // Reset billing header title (clears "Editing Invoice" indicator)
         if (DOM.billingHeaderTitle) {
-            DOM.billingHeaderTitle.textContent = "IMS Billing Counter";
+            DOM.billingHeaderTitle.textContent = "MAHI TRADERS Billing Counter";
         }
         
         // Load all active inventory products for product autocompletes
@@ -1710,7 +1710,7 @@ async function loadInvoiceForEditing(invoice) {
     
     // Show a subtle indicator that we're in edit mode
     if (DOM.billingHeaderTitle) {
-        DOM.billingHeaderTitle.textContent = "IMS Billing Counter (Editing Invoice)";
+        DOM.billingHeaderTitle.textContent = "MAHI TRADERS Billing Counter (Editing Invoice)";
     }
 }
 
@@ -2937,7 +2937,7 @@ async function generatePDFInvoice() {
         // Title Header
         doc.setFont("Helvetica", "bold");
         doc.setFontSize(22);
-        doc.text("IMS HARDWARE SHOP", 14, 20);
+        doc.text("MAHI TRADERS", 14, 20);
 
         doc.setFont("Helvetica", "normal");
         doc.setFontSize(10);
@@ -3032,7 +3032,7 @@ async function generatePDFInvoice() {
         }
 
         // Download document trigger
-        doc.save(`${data.invoiceId}_IMS_Receipt.pdf`);
+        doc.save(`${data.invoiceId}_MAHI_TRADERS_Receipt.pdf`);
 
         alert("Invoice generated and saved as PDF successfully! Stocks are updated.");
         initializeBillingCounter();
@@ -3234,7 +3234,7 @@ async function downloadPDFInvoice(inv) {
         // Title Header
         doc.setFont("Helvetica", "bold");
         doc.setFontSize(22);
-        doc.text("IMS HARDWARE SHOP", 14, 20);
+        doc.text("MAHI TRADERS", 14, 20);
 
         doc.setFont("Helvetica", "normal");
         doc.setFontSize(10);
@@ -3317,7 +3317,7 @@ async function downloadPDFInvoice(inv) {
         doc.text(`Grand Total: Rs. ${(inv.total || 0).toFixed(2)}`, 140, finalY + taxOffset, { align: "left" });
 
         // Download PDF
-        doc.save(`${inv.invoiceId}_IMS_Receipt.pdf`);
+        doc.save(`${inv.invoiceId}_MAHI_TRADERS_Receipt.pdf`);
 
     } catch (err) {
         console.error("PDF generation error:", err);
@@ -3353,7 +3353,7 @@ function exportInvoiceHistoryCSV() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `IMS_Invoice_History_${new Date().toISOString().split("T")[0]}.csv`);
+    link.setAttribute("download", `MAHI_TRADERS_Invoice_History_${new Date().toISOString().split("T")[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -3392,7 +3392,7 @@ DOM.btnDbExport.addEventListener("click", async () => {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData));
         const downloadAnchor = document.createElement("a");
         downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", `IMS_DB_Backup_${new Date().toISOString().split("T")[0]}.json`);
+        downloadAnchor.setAttribute("download", `MAHI_TRADERS_DB_Backup_${new Date().toISOString().split("T")[0]}.json`);
         document.body.appendChild(downloadAnchor);
         downloadAnchor.click();
         document.body.removeChild(downloadAnchor);

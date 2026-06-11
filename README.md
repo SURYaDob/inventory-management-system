@@ -1,8 +1,8 @@
-# 🛠️ IMS — Inventory Management & Billing System
+# 🛠️ MAHI TRADERS — Inventory Management & Billing System
 
 A full-featured, browser-based **Inventory Management and Billing System** designed for hardware, electrical, plumbing, paint, and general retail shops. Built with vanilla JavaScript and IndexedDB — no server or internet required after initial load.
 
-> **Live demo:** Run `Run-IMS.bat` (Windows) or serve with `python -m http.server 3000`
+> **Live demo:** Run `Run-MAHI-TRADERS.bat` (Windows) or serve with `python -m http.server 3000`
 
 ---
 
@@ -49,7 +49,7 @@ npx serve .
 
 ### Windows Quick Launch
 
-Double-click **`Run-IMS.bat`** — it launches the app in a clean Edge app window.
+Double-click **`Run-MAHI-TRADERS.bat`** — it launches the app in a clean Edge app window.
 
 ---
 
@@ -192,11 +192,11 @@ Database maintenance tools:
 ## 📁 Project Structure
 
 ```
-IMS/
+MAHI_TRADERS/
 ├── index.html          # Main HTML with all screens, modals, print template
 ├── style.css           # Complete design system + all component styles
 ├── app.js              # All application logic (~5400 lines)
-├── Run-IMS.bat         # Windows quick-launch script
+├── Run-MAHI-TRADERS.bat # Windows quick-launch script
 ├── USER_GUIDE.txt      # Detailed user operation manual
 ├── .gitignore
 └── README.md

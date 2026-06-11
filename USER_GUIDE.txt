@@ -1,5 +1,5 @@
-IMS (Inventory Management System) - User Guide & Operation Manual
-Welcome to IMS, the custom desktop inventory and billing software designed for hardware shop operations.
+MAHI TRADERS (Inventory Management System) - User Guide & Operation Manual
+Welcome to MAHI TRADERS, the custom desktop inventory and billing software designed for hardware shop operations.
  This guide walks you through every screen and feature from a user's perspective, helping you manage stock,
  register operators, and execute billing transactions.
 ------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ Welcome to IMS, the custom desktop inventory and billing software designed for h
 How to Launch the App
 
 Go to your computer's Desktop.
-Find the icon named IMS and double-click it.
+Find the icon named MAHI TRADERS and double-click it.
 A clean, borderless window will open.
 First-Time Sign In
 The app automatically seeds a default system administrator account.
@@ -102,7 +102,7 @@ Choose your printer and click Print.
 The system deducts the items from your inventory database, logs the invoice history, and resets the billing counter for the next customer.
 Option B: Download PDF Bill
 Click "Save as PDF".
-A PDF document (e.g., INV-12345_IMS_Receipt.pdf) downloads to your machine containing a header invoice receipt.
+A PDF document (e.g., INV-12345_MAHI_TRADERS_Receipt.pdf) downloads to your machine containing a header invoice receipt.
 Saves the transaction and updates inventory stocks.
 ------------------------------------------------------------------------------
 📖 7. Checking Invoice Transaction Logs
